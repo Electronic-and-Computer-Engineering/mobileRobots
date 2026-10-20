@@ -2,10 +2,10 @@
 
 # 05 — Greedy best-first: look toward the goal
 
-**Block 2 · 25 min CORE / 40 min full version · Edit `tasks/greedy_graph.m`**
+**Block 2 · Guided MATLAB exercise**
 
 
-> **Compact CORE route (~25 min):** Core: Steps 1, 2 and 4. Optional: Step 3 (longer three-way comparison). See [CORE_ROUTE.md](CORE_ROUTE.md). The original detailed time estimates and exercises below are the **full** version, not required to fit the compact core time.
+> **Required activities:** Follow the steps marked **TASK** in order. Additional experiments are available for deeper investigation; they are not separate submissions. See [CORE_ROUTE.md](CORE_ROUTE.md).
 
 ## Goal
 
@@ -15,12 +15,16 @@ The goal of this chapter is to isolate the heuristic idea before combining it wi
 
 ### File tour — deliberately ignore past cost
 
+**TASK — Required:** Open your BFS implementation beside `tasks/greedy_graph.m`. Identify where Greedy should replace arrival order with a heuristic priority.
+
 Open **`tasks/bfs_graph.m`** and **`tasks/greedy_graph.m`** together. You already know how to record predecessors and detect the goal. Only the rule for taking a candidate from OPEN is new.
 
 In `demos/demo_heuristic.m` you learned that `h(v)` is a *number returned by a function or supplied as a vector*, not a true measured remaining distance. Greedy trusts that estimate completely. This makes it an excellent experiment in why **fast search** and **cheap routes** are different engineering goals.
 
 
-## Step 1 — Predict the wrong decision (10 min)
+## Step 1 — Predict the wrong decision
+
+**TASK — Step 1:** Read the heuristic values of the six-node example. Predict which neighbour of A Greedy selects and whether that choice guarantees a cheap overall route.
 
 The course graph has heuristic values:
 
@@ -31,7 +35,7 @@ G.h
 
 For A's neighbours B, C and D, record `h(B)`, `h(C)` and `h(D)` in your notes.
 
-**Predict:** Which neighbour will Greedy expand next? What does Greedy *not* consider when making this choice? Does the expensive A–D edge change your prediction?
+**TASK — Predict:** Which neighbour will Greedy expand next? What does Greedy *not* consider when making this choice? Does the expensive A–D edge change your prediction?
 
 <details>
 <summary>Show solution (after your own attempt)</summary>
@@ -41,19 +45,21 @@ The graph provides `h(B)=2`, `h(C)=3` and `h(D)=1`. Greedy selects **D**, becaus
 </details>
 
 
-## Step 2 — Build Greedy from BFS (15 min)
+## Step 2 — Build Greedy from BFS
+
+**TASK — Step 2:** Implement Greedy from BFS: use a `minkey` container with key `h(v)` when inserting both the start and new nodes. Run `check_my_code('greedy')`.
 
 Open `tasks/greedy_graph.m`. Start from your completed `bfs_graph.m` and retain its basic structure and first-visit handling.
 
 **Why these changes?** FIFO cannot rank nodes by their distance estimate, so Greedy needs a **priority-based OPEN container**. The key must be specified on **every insertion**, including the start. The **path cost reported afterwards** still comes from the real edge weights — even though Greedy does not use them to select candidates.
 
-**Pre-code reverse-engineering test:** Use your Chapter 01 `minkey` experiment to show how the same nodes `[2, 3, 4]` can be ordered differently by assigning priorities `[2, 3, 1]`. Only then update your Greedy code.
+**TASK — Reverse-engineer:** Use your Chapter 01 `minkey` experiment to show how the same nodes `[2, 3, 4]` can be ordered differently by assigning priorities `[2, 3, 1]`. Only then update your Greedy code.
 
 
 Make the two conceptual changes yourself:
 
-1. OPEN must choose nodes by a numerical priority, not FIFO order.
-2. The priority must depend on **the estimated remaining cost** of each node, both for the initial insertion and for each newly discovered neighbour.
+1. **TASK:** OPEN must choose nodes by a numerical priority, not FIFO order.
+2. **TASK:** The priority must depend on **the estimated remaining cost** of each node, both for the initial insertion and for each newly discovered neighbour.
 
 Do **not** introduce `g`, relaxation or a sum of costs. This method deliberately knows nothing about what the route has cost so far.
 
@@ -68,7 +74,9 @@ check_my_code('greedy')
 
 Expected course-graph outcome: Greedy selects A–D–F and returns cost 7 after three expansions, even though a route costing 3 exists.
 
-## Step 3 — Same result, different reason (10 min)
+## Step 3 — Same result, different reason
+
+**TASK — Step 3:** Compare DFS, Greedy and Dijkstra on the same graph. Explain why similar paths or expansion counts do not mean the algorithms use the same decision rule.
 
 Run the three searches on the same graph:
 
@@ -91,7 +99,9 @@ No. **DFS** chooses the most recently discovered node using a LIFO container. **
 </details>
 
 
-## Step 4 — First assessment (5 min)
+## Step 4 — First assessment
+
+**TASK — Step 4:** Run Greedy on the provided obstacle field. Compare path cost and explored nodes with Dijkstra and explain the trade-off.
 
 Imagine this algorithm controlling a delivery robot. What is the practical trade-off between **search effort** and **driving distance**? Explain why Greedy may look impressive in a visualization while returning an unnecessarily expensive path.
 
@@ -104,6 +114,8 @@ Greedy often expands comparatively few nodes, which can reduce planning effort, 
 
 
 ## Checkpoint
+
+**TASK — Required:** Explain where `h` enters the implementation and why ignoring accumulated cost can produce a suboptimal path.
 
 - [ ] `check_my_code('greedy')` passes.
 - [ ] My implementation uses `h(v)` as its selection key.

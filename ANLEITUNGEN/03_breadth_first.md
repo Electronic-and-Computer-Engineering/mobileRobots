@@ -2,10 +2,10 @@
 
 # 03 — Derive breadth-first search (BFS)
 
-**Block 1 · 25 min CORE / 35 min full version · Edit `tasks/bfs_graph.m`**
+**Block 1 · Guided MATLAB exercise**
 
 
-> **Compact CORE route (~25 min):** Core: Steps 1–3. Optional: Step 4 (additional grid test). See [CORE_ROUTE.md](CORE_ROUTE.md). The original detailed time estimates and exercises below are the **full** version, not required to fit the compact core time.
+> **Required activities:** Follow the steps marked **TASK** in order. Additional experiments are available for deeper investigation; they are not separate submissions. See [CORE_ROUTE.md](CORE_ROUTE.md).
 
 ## Goal
 
@@ -15,18 +15,22 @@ BFS returns a path with the fewest **edges** in an unweighted graph. That is not
 
 ### File tour and experiment
 
+**TASK — Required:** Open your working `tasks/dfs_graph.m` next to `tasks/bfs_graph.m` and identify the container mode that determines the expansion order.
+
 **Open:** `tasks/dfs_graph.m` (your working DFS) **beside** `tasks/bfs_graph.m` (the new file). Before changing anything, find the line that constructs OPEN. All other components — neighbour queries, `seen`, `par`, goal test — already serve the same purpose.
 
 **Why not write BFS from scratch?** The exercise isolates one design choice: the data structure controls the search order. To verify that claim, first predict the traces on paper, then compare both algorithms on **the same map and start/goal**. A different map would not be a fair test of the one-line change.
 
 
-## Step 1 — Predict before coding (8 min)
+## Step 1 — Predict before coding
+
+**TASK — Step 1:** Predict the first two BFS search layers on the six-node graph before running MATLAB. Compare that prediction with DFS.
 
 On the same graph, consider A's neighbours B, C and D.
 
-1. With LIFO, which node is examined next?
-2. With FIFO, which node is examined next?
-3. In what order will BFS visit nodes at distance one edge and distance two edges from A?
+1. **TASK:** With LIFO, which node is examined next?
+2. **TASK:** With FIFO, which node is examined next?
+3. **TASK:** In what order will BFS visit nodes at distance one edge and distance two edges from A?
 
 Draw the first two BFS layers in your notes. Do not inspect the expected numerical result yet.
 
@@ -46,7 +50,9 @@ With ascending neighbour order, the expansion order is **A, B, C, D, E, F**. BFS
 </details>
 
 
-## Step 2 — Derive the algorithm (12 min)
+## Step 2 — Derive the algorithm
+
+**TASK — Step 2:** Copy the DFS implementation into `tasks/bfs_graph.m`, adjust the function name, and change only the OPEN selection rule to FIFO. Run `check_my_code('bfs')` and compare the node order.
 
 Open `tasks/bfs_graph.m` and copy your completed `dfs_graph.m` into it, adjusting the function name to `bfs_graph`.
 
@@ -72,7 +78,9 @@ check_my_code('bfs')
 
 **Reference outcome for the course graph:** Both can return A–D–F with cost 7, but DFS expands three nodes and BFS six. The important result is the **guarantee**, not a lucky match on one graph.
 
-## Step 3 — Find the counterexample (8 min)
+## Step 3 — Find the counterexample
+
+**TASK — Step 3:** Calculate the costs of A–D–F and A–B–E–F. Explain why BFS prefers the route with fewer edges despite the higher accumulated cost.
 
 Calculate the costs of these two routes using the edges of `G.W`:
 
@@ -98,13 +106,15 @@ If edge weights represent travel time or energy, fewer edges may be much more ex
 </details>
 
 
-## Step 4 — Use a small grid (7 min)
+## Step 4 — Use a small grid
+
+**TASK — Step 4:** Run your own BFS on a grid through `search_student_grid`. Change the connectivity from 4 to 8, compare the resulting step counts and costs, and explain what changed.
 
 Now let your **own** implementation plan on a grid via the provided adapter:
 
 **Why this new file matters:** Your `bfs_graph.m` expects a weighted adjacency matrix, but a labyrinth is represented by the binary occupancy matrix `M`. The adapter `tools/search_student_grid.m` converts the representation and **calls your `bfs_graph.m`**. It does not replace the student algorithm. Confirm this with `which bfs_graph` before drawing a conclusion from the plot.
 
-**Small parameter experiment:** Keep the map seed fixed and compare `Conn=4` and `Conn=8`. Observe the number of steps, the computed cost and the shape of the path. Predict why the algorithm still minimizes **edge count**, even when diagonals have a different length.
+**TASK — Parameter experiment:** Keep the map seed fixed and compare `Conn=4` and `Conn=8`. Observe the number of steps, the computed cost and the shape of the path. Predict why the algorithm still minimizes **edge count**, even when diagonals have a different length.
 
 
 ```matlab
@@ -128,6 +138,8 @@ BFS expands outward from the start in increasing **number of steps**, not accord
 
 
 ## Checkpoint
+
+**TASK — Required:** Verify BFS runs and be able to explain the difference from DFS and the condition under which BFS is cost-optimal.
 
 - [ ] `check_my_code('bfs')` passes.
 - [ ] I can identify the one difference between DFS and BFS in my source code.

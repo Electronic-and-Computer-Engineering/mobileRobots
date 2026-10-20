@@ -6,6 +6,8 @@ This folder contains the student lab instructions in English. MATLAB code and ac
 
 ## Navigation
 
+**TASK — Start:** Open [CORE_ROUTE.md](CORE_ROUTE.md), work through the named MATLAB files and consult the detailed chapters when you need an explanation. Each activity clearly labels its **TASK**.
+
 | No. | Chapter | MATLAB focus |
 |---|---|---|
 | 01 | [Toolbox / supplied functions](01_basics.md) | `demos/`, `experiments/01_toolbox_experiments.m` |

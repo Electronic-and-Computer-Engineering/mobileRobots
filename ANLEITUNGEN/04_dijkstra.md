@@ -2,10 +2,10 @@
 
 # 04 — Dijkstra: cheapest known route first
 
-**Block 2 · 65 min CORE / 80 min full version · Edit `tasks/dijkstra_graph.m`**
+**Block 2 · Guided MATLAB exercise**
 
 
-> **Compact CORE route (~65 min):** Core: Steps 1–5, with a short demonstration of relaxation and stale entries. Optional: Step 6. See [CORE_ROUTE.md](CORE_ROUTE.md). The original detailed time estimates and exercises below are the **full** version, not required to fit the compact core time.
+> **Required activities:** Follow the steps marked **TASK** in order. Additional experiments are available for deeper investigation; they are not separate submissions. See [CORE_ROUTE.md](CORE_ROUTE.md).
 
 ## Goal
 
@@ -14,6 +14,8 @@ BFS guarantees the fewest edges, not the smallest total cost. Dijkstra adds an e
 In this chapter you will implement the most important new mechanism: **relaxation**.
 
 ### File tour — see where the new reasoning belongs
+
+**TASK — Required:** Open `tasks/dijkstra_graph.m` beside your BFS file. Locate where edge weights, accumulated costs and predecessors must be updated.
 
 Open **`tasks/dijkstra_graph.m`** beside **`tasks/bfs_graph.m`**. Both have an OPEN loop and query neighbours, but a weighted planner must distinguish:
 
@@ -25,7 +27,9 @@ Open **`tasks/dijkstra_graph.m`** beside **`tasks/bfs_graph.m`**. Both have an O
 Return briefly to `demos/demo_container.m`: try inserting the same node twice with different priorities. The duplicate-entry behaviour is **not an accident**; the relaxation mechanism may later improve a discovered route. Never replace Dijkstra's relaxation with a simple `seen` check.
 
 
-## Step 1 — Understand `g` (15 min)
+## Step 1 — Understand `g`
+
+**TASK — Step 1:** Initialize the `g` values for the example graph, inspect the start cost and unknown costs, and explain why unknown routes are represented by `Inf`.
 
 Let \(g(v)\) be the cost of the best route from start `s` to node `v` currently known to the algorithm. Initially:
 
@@ -42,7 +46,7 @@ g(G.s) = 0;
 g
 ```
 
-**On paper:** A has edges to B (cost 1), C (cost 1) and D (cost 6). What will the values of `g(B)`, `g(C)`, and `g(D)` be after expanding A once?
+**TASK — Calculate on paper:** A has edges to B (cost 1), C (cost 1) and D (cost 6). What will the values of `g(B)`, `g(C)`, and `g(D)` be after expanding A once?
 
 Update these three entries manually. Now suppose the path to E via B costs 2, while the path via C costs 3. Which parent should E remember? Why?
 
@@ -56,7 +60,9 @@ For E, **B** should be the remembered predecessor because the route through B co
 </details>
 
 
-## Step 2 — Learn relaxation outside the algorithm (15 min)
+## Step 2 — Learn relaxation outside the algorithm
+
+**TASK — Step 2:** Test relaxation with concrete numbers before coding the whole search: calculate `g(u)+w(u,v)`, compare it with `g(v)` and decide whether `g` and `par` should change.
 
 Relaxation compares an already known route to `v` with a candidate route through `u`:
 
@@ -66,7 +72,7 @@ g_{\mathrm{candidate}}=g(u)+w(u,v).
 
 Only if the candidate is cheaper do we update the best-known cost and predecessor.
 
-**Small exercise:** Complete and run this experiment. Replace the missing condition with an actual MATLAB comparison.
+**TASK — Try this experiment:** Complete and run this experiment. Replace the missing condition with an actual MATLAB comparison.
 
 ```matlab
 gU = 2;              % known cost to u
@@ -81,7 +87,7 @@ candidate = gU + edgeCost;
 
 Try `gV=5`, then `gV=2`, then `gV=Inf`. Predict in which cases the stored value changes.
 
-**Explain:** Why do we initialize unknown distances to `Inf` rather than zero?
+**TASK — Explain:** Why do we initialize unknown distances to `Inf` rather than zero?
 
 <details>
 <summary>Show solution (after your own attempt)</summary>
@@ -99,7 +105,9 @@ Initializing unexplored nodes to **`Inf`** ensures that the first finite candida
 </details>
 
 
-## Step 3 — Turn the principle into Dijkstra (25 min)
+## Step 3 — Turn the principle into Dijkstra
+
+**TASK — Step 3:** Complete the TODOs in `tasks/dijkstra_graph.m`: candidate cost, comparison, predecessor update and priority insertion. Run the six-node example and verify that the cheaper route is found.
 
 Open `tasks/dijkstra_graph.m`. The outer loop and data structures are prepared, but the three TODOs in the neighbour loop are incomplete.
 
@@ -117,9 +125,9 @@ The path reconstructed from `par` must correspond to the currently best-known co
 
 Complete them in this order:
 
-1. Determine the candidate cost to neighbour `v` via expanded node `u`.
-2. Decide whether that candidate is an improvement.
-3. Only when it is better, update **both** the known cost and the predecessor, and add `v` to OPEN with the appropriate priority.
+1. **TASK:** Determine the candidate cost to neighbour `v` via expanded node `u`.
+2. **TASK:** Decide whether that candidate is an improvement.
+3. **TASK:** Only when it is better, update **both** the known cost and the predecessor, and add `v` to OPEN with the appropriate priority.
 
 **Do not copy a complete solution from the instructions.** Derive each required expression from the formula above and from your priority-queue exercise in Chapter 01.
 
@@ -135,15 +143,17 @@ plot_graph(G, 'Expanded', st.order, 'Path', p, ...
 
 Expected conceptual result: Dijkstra avoids the expensive A–D shortcut and finds A–B–E–F for a cost of 3. With the supplied deterministic priority queue, it expands five nodes.
 
-## Step 4 — Why can a node enter OPEN twice? (10 min)
+## Step 4 — Why can a node enter OPEN twice?
+
+**TASK — Step 4:** Use the supplied priority container to observe duplicate OPEN entries. Explain why outdated entries are skipped after a node has been finalized.
 
 Dijkstra may discover a node along an expensive route and later find a cheaper route to that same node.
 
 **Investigate:**
 
-1. Why must a candidate be allowed into OPEN even if the node was discovered earlier?
-2. What can happen to the older, more expensive OPEN entry?
-3. Which line in your code ensures that already finished nodes are not expanded again?
+1. **TASK:** Why must a candidate be allowed into OPEN even if the node was discovered earlier?
+2. **TASK:** What can happen to the older, more expensive OPEN entry?
+3. **TASK:** Which line in your code ensures that already finished nodes are not expanded again?
 
 Demonstrate duplicate priorities using `open_new('minkey')`, two `open_push` calls for the same node and `open_pop`. This is an OPEN-container exercise, **not** a reason to edit the helper.
 
@@ -159,7 +169,9 @@ For example, pushing node `5` with priority 9 and then with priority 3 makes the
 
 **Important:** For nonnegative edge weights Dijkstra can finalize a node when it is removed with the smallest cost. A standard Dijkstra implementation does not work in the same way with negative edges.
 
-## Step 5 — Verify and separate edges from costs (10 min)
+## Step 5 — Verify and separate edges from costs
+
+**TASK — Step 5:** Run `check_my_code('dijkstra')` and compare Dijkstra and BFS on both equal-cost and weighted movements. Explain differences in steps and total cost.
 
 ```matlab
 check_my_code('dijkstra')
@@ -184,7 +196,9 @@ For unit square cells, moving horizontally or vertically travels a distance of *
 </details>
 
 
-## Step 6 — Explain your algorithm (5 min)
+## Step 6 — Explain your algorithm
+
+**TASK — Step 6:** Walk through a relaxation in your own implementation and explain every value used in the comparison and update.
 
 Without reading your source code, answer:
 
@@ -203,6 +217,8 @@ Without reading your source code, answer:
 
 
 ## Checkpoint
+
+**TASK — Required:** Confirm the code passes the tests and explain `g`, relaxation, priorities and why nonnegative edge weights matter.
 
 - [ ] `check_my_code('dijkstra')` passes.
 - [ ] I can write the relaxation inequality from memory and explain it.

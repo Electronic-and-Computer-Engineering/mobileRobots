@@ -9,7 +9,7 @@ MobileRobots_PathPlanning/
 │  README.md                  ← this overview
 ├─ ANLEITUNGEN/
 │  ├─ README.md               ← index to the nine Markdown chapters
-│  ├─ CORE_ROUTE.md           ← short guided path through 3 lab blocks
+│  ├─ CORE_ROUTE.md           ← guided list of explicitly labelled tasks
 │  ├─ 01_basics.md            ← inspect and experiment with supplied tools
 │  ├─ 02_depth_first.md       ← DFS
 │  ├─ 03_breadth_first.md     ← BFS
@@ -35,10 +35,12 @@ MobileRobots_PathPlanning/
 
 ## Start
 
-1. Read [the guided route](ANLEITUNGEN/CORE_ROUTE.md).
-2. In MATLAB set your **Current Folder** to `MATLAB/` (not the outer package folder).
-3. Run `setup_path` and `check_tools`.
-4. Follow the detailed [Markdown chapters](ANLEITUNGEN/README.md) if you need explanations, worked examples, or help with debugging.
+**TASK — Setup:** Open the MATLAB folder, run the provided tool checks, then implement the planning algorithms and car activity with the named task files.
+
+1. **TASK:** Read [the guided route](ANLEITUNGEN/CORE_ROUTE.md).
+2. **TASK:** In MATLAB set your **Current Folder** to `MATLAB/` (not the outer package folder).
+3. **TASK:** Run `setup_path` and `check_tools`.
+4. **TASK:** Follow the detailed [Markdown chapters](ANLEITUNGEN/README.md) if you need explanations, worked examples, or help with debugging.
 
 ## Final outcomes
 

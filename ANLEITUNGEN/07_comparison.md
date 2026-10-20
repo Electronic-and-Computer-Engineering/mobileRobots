@@ -2,10 +2,10 @@
 
 # 07 — Compare your algorithms on random maps
 
-**Block 3 · 110 min CORE / 180 min full version · Experiments and analysis**
+**Block 3 · Guided MATLAB exercise**
 
 
-> **Compact CORE route (~110 min):** Core: initial checks, short integration check, Experiments 2, 3 (use the **prepared** `experiments/07_random_comparison.m` with `seeds = 1:4`) and 5. Optional: Experiment 4 and the extended 8-seed analysis. See [CORE_ROUTE.md](CORE_ROUTE.md). The original detailed time estimates and exercises below are the **full** version, not required to fit the compact core time.
+> **Required activities:** Follow the steps marked **TASK** in order. Additional experiments are available for deeper investigation; they are not separate submissions. See [CORE_ROUTE.md](CORE_ROUTE.md).
 
 ## Objective
 
@@ -15,6 +15,8 @@ Your conclusions must be supported by *repeatable measurements*, not by choosing
 
 ### File tour — what is running, and how can you prove it?
 
+**TASK — Required:** Inspect `tasks/astar_graph.m`, `tools/grid_to_graph.m`, `tools/search_student_grid.m` and the check scripts. Determine which function actually runs the student algorithm and how a grid becomes a weighted graph.
+
 Start with **`tasks/astar_graph.m`** (your algorithm), then inspect **`tools/grid_to_graph.m`** (representation conversion) and **`tools/search_student_grid.m`** (adapter). The adapter prepares a sparse graph from `M`, builds an appropriate heuristic when required, and calls your student function.
 
 `checks/check_student_grid.m` validates **integration**, not the theoretical quality of every planner. `checks/check_my_code.m` tests individual algorithm behaviour; `check_tools` validates the unchanged toolbox. Open the check files to see what is **actually checked** before interpreting a passing result.
@@ -23,6 +25,8 @@ For one experiment, make a deliberate, reversible change to your own algorithm (
 
 
 ## What must be ready?
+
+**TASK — Required:** Run the setup and check commands, then verify `which dfs_graph` and `which search_student_grid` resolve to the expected student and tool files.
 
 Run:
 
@@ -38,12 +42,14 @@ All five search implementations should pass. `dfs_graph` must point to your `tas
 
 ### A fair measurement needs a definition
 
+**TASK — Required:** For every comparison, keep map, start, goal, connectivity and seed fixed. Measure path cost, expansions and MATLAB search time separately; explain which quantity answers which question.
+
 **Test strategy for this block:**
 
-1. **Correctness first:** Do the output nodes form a legal path? Is its reported cost equal to the sum of the edges? Is the goal reached?
-2. **Fair comparison second:** Hold the generated map, endpoints, movement model and seed fixed when switching algorithms.
-3. **Performance third:** Compare path cost, number of expanded nodes and search time as **different quantities**. Use several seeds and report preparation time separately.
-4. **Conclusions last:** An individual winner on one random map is an observation, not an algorithmic guarantee.
+1. **TASK:** **Correctness first:** Do the output nodes form a legal path? Is its reported cost equal to the sum of the edges? Is the goal reached?
+2. **TASK:** **Fair comparison second:** Hold the generated map, endpoints, movement model and seed fixed when switching algorithms.
+3. **TASK:** **Performance third:** Compare path cost, number of expanded nodes and search time as **different quantities**. Use several seeds and report preparation time separately.
+4. **TASK:** **Conclusions last:** An individual winner on one random map is an observation, not an algorithmic guarantee.
 
 
 - **Cost:** sum of actual edge weights on the returned path.
@@ -54,7 +60,9 @@ All five search implementations should pass. `dfs_graph` must point to your `tas
 
 The expansion count is a useful machine-independent measure of search work, but fewer expansions do **not** automatically imply lower computation time. Priority-queue operations also cost time.
 
-## Experiment 1 — Prove it runs your code (25 min)
+## Experiment 1 — Prove it runs your code
+
+**TASK — Experiment 1:** Convert a small grid to a sparse graph. Compare graph and grid neighbours, then deliberately trigger a reversible error in your own A* to verify `search_student_grid` truly calls your implementation; remove the error afterwards.
 
 In Chapters 02–06 you wrote functions such as `astar_graph(W,s,t,h)`. A grid is represented differently, by a binary matrix `M`. To reuse your code, the helper `grid_to_graph` creates a **sparse weighted adjacency matrix**:
 
@@ -104,11 +112,13 @@ plot_grid(M, 'Path', p, 'Expanded', st.order, ...
           'Start', s, 'Goal', t, 'Title', 'My A* on an obstacle field');
 ```
 
-**Verification:** Temporarily insert an `error('student:test', ...)` at the beginning of **your** `astar_graph.m`. Confirm that `search_student_grid(...,'astar')` now reports that error, then remove it. This establishes that your version is actually executed.
+**TASK — Verify:** Temporarily insert an `error('student:test', ...)` at the beginning of **your** `astar_graph.m`. Confirm that `search_student_grid(...,'astar')` now reports that error, then remove it. This establishes that your version is actually executed.
 
 > Note: This conversion is a **teaching adapter**. On very large grids, an implicit neighbour function that does not build an explicit graph is usually preferable. The implementation deliberately preserves the existing student task interfaces, not maximum scalability.
 
-## Experiment 2 — One map, five searches (40 min)
+## Experiment 2 — One map, five searches
+
+**TASK — Experiment 2:** Run all five student algorithms on the same seeded obstacle field. Record path cost, steps and expansions, and explain why their search patterns differ.
 
 Use **one identical map, start and goal** for all methods. First predict which methods should be cost-optimal in a 4-neighbour grid where every move costs 1.
 
@@ -151,12 +161,12 @@ Fill the table using your actual outputs:
 | Dijkstra | | | | |
 | A* | | | | |
 
-**Explain:**
+**TASK — Explain:**
 
-1. Which searches found a minimum-cost path on this map, and which ones were guaranteed to do so for this map type?
-2. Compare Dijkstra with A*: were their costs equal? Did they expand the same nodes?
-3. Which search used the fewest expansions? Does that prove it is the best overall method?
-4. How can different methods return an equal-cost but not necessarily identical path?
+1. **TASK:** Which searches found a minimum-cost path on this map, and which ones were guaranteed to do so for this map type?
+2. **TASK:** Compare Dijkstra with A*: were their costs equal? Did they expand the same nodes?
+3. **TASK:** Which search used the fewest expansions? Does that prove it is the best overall method?
+4. **TASK:** How can different methods return an equal-cost but not necessarily identical path?
 
 <details>
 <summary>Show solution (after your own attempt)</summary>
@@ -173,7 +183,9 @@ Record exact values from **your own** run.
 </details>
 
 
-## Experiment 3 — A single seed is not evidence (55 min)
+## Experiment 3 — A single seed is not evidence
+
+**TASK — Experiment 3:** Inspect `experiments/07_random_comparison.m`, run a small reproducible set of seeds, then compare multiple maps. Explain why one random result does not establish a general ranking.
 
 **Before executing the long loop:** Inspect the variables `densities`, `seeds` and `methods`. Predict how many planner runs the nested loops make, including the additional Dijkstra reference call per map. Change `seeds` temporarily to `1:2` to validate the output-table structure, then restore `1:8` for the actual experiment.
 
@@ -270,9 +282,13 @@ Do **not** invent averages or timings in the completed table; they must come fro
 
 Do not present these 16 maps as a formal statistical performance study. They are a **controlled laboratory experiment** that supports a reasoned comparison.
 
-## Experiment 4 — Change the question, not just the map (35 min)
+## Experiment 4 — Change the question, not just the map
+
+**TASK — Experiment 4:** Change only the environment or movement model and compare results again: one-path mazes, weighted diagonal moves and a deliberately unsuitable heuristic.
 
 ### A. Perfect maze: one route
+
+**TASK — Required:** Run the five algorithms on the same perfect maze and compare the route costs and expansions. Explain why having only one route limits possible differences.
 
 ```matlab
 M2 = maze_random(10, 15, 42);
@@ -297,6 +313,8 @@ A perfect maze is a **tree of passages**, so there is only one simple route betw
 
 ### B. Eight neighbours: different edge weights
 
+**TASK — Required:** Compare your BFS and Dijkstra with `Conn=8` and explain why fewer steps can still have a higher cost.
+
 Return to the obstacle field. Use `Conn = 8` with corner cutting disabled. Compare BFS and Dijkstra:
 
 ```matlab
@@ -317,6 +335,8 @@ fprintf('Dijkstra: %d steps, cost %.3f\n', numel(pD)-1, cD);
 
 
 ### C. Deliberately invalid A* heuristic
+
+**TASK — Required:** Run A* with Octile and Manhattan on the same 8-neighbour grid. Check whether the heuristic affects optimality or expansion count and explain what cannot be concluded from just one map.
 
 Compare two heuristics on an 8-neighbour grid:
 
@@ -340,16 +360,18 @@ For a target one diagonal step away, the true remaining cost is `sqrt(2)≈1.414
 </details>
 
 
-## Experiment 5 — Engineering conclusion (15 min)
+## Experiment 5 — Engineering conclusion
+
+**TASK — Experiment 5:** Choose a suitable search algorithm for each of the provided scenarios and justify your decision in terms of cost model, optimality and computational effort.
 
 Select an algorithm for each scenario and justify the decision in two or three sentences:
 
-1. A robot moves on an unweighted four-neighbour grid; distance in steps is the only criterion.
-2. A robot moves on a weighted map with nonnegative travel costs; no reliable heuristic is available.
-3. A robot must find a good route rapidly on a large map with a consistent, informative heuristic.
-4. A robot needs a route quickly, and the quality of that route can be sacrificed if necessary.
+1. **TASK:** A robot moves on an unweighted four-neighbour grid; distance in steps is the only criterion.
+2. **TASK:** A robot moves on a weighted map with nonnegative travel costs; no reliable heuristic is available.
+3. **TASK:** A robot must find a good route rapidly on a large map with a consistent, informative heuristic.
+4. **TASK:** A robot needs a route quickly, and the quality of that route can be sacrificed if necessary.
 
-**Final question:** Does a minimum-distance grid path guarantee a minimum-time route for a vehicle with a turning radius and limited acceleration? Why not?
+**TASK — Explain:** Does a minimum-distance grid path guarantee a minimum-time route for a vehicle with a turning radius and limited acceleration? Why not?
 
 <details>
 <summary>Show solution (after your own attempt)</summary>
@@ -360,6 +382,8 @@ No. Grid search optimizes the sum of specified **edge costs**, here geometric di
 
 
 ## Wrap-up: What should you be able to explain?
+
+**TASK — Required:** Be prepared to demonstrate your own algorithms, explain their node-selection decisions and show a reproducible comparison. Screenshots and separate reports are not independent deliverables.
 
 Compare your own implementations on the same map and be ready to explain the different selection rules, path costs and expansion counts. Plots and tables are tools for reasoning, **not additional required submissions** in this package. Your instructor determines the formal assessment.
 

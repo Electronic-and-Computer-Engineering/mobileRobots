@@ -2,10 +2,10 @@
 
 # 02 — Build depth-first search (DFS)
 
-**Block 1 · 50 min CORE / 55 min full version · Edit `tasks/dfs_graph.m`**
+**Block 1 · Guided MATLAB exercise**
 
 
-> **Compact CORE route (~50 min):** Core: Steps 1–5. Optional: Step 6 (extra experiment). See [CORE_ROUTE.md](CORE_ROUTE.md). The original detailed time estimates and exercises below are the **full** version, not required to fit the compact core time.
+> **Required activities:** Follow the steps marked **TASK** in order. Additional experiments are available for deeper investigation; they are not separate submissions. See [CORE_ROUTE.md](CORE_ROUTE.md).
 
 ## Goal
 
@@ -14,6 +14,8 @@ Implement a search that continues with the **most recently discovered node**. Us
 The aim is not to memorize DFS pseudocode. It is to assemble familiar helper functions into a working search and explain the behavior.
 
 ### File tour — before editing
+
+**TASK — Required:** Open `tasks/dfs_graph.m` beside `demos/demo_pattern.m`. Identify OPEN, `seen`, `closed` and `par`, and explain what each variable stores before editing any TODO.
 
 Open **`tasks/dfs_graph.m`** and keep **`demos/demo_pattern.m`** next to it. The demo already performs **reachability**; your task converts that same loop into a **goal-directed path search**.
 
@@ -28,15 +30,17 @@ Open **`tasks/dfs_graph.m`** and keep **`demos/demo_pattern.m`** next to it. The
 **Three local tests before the automated checker:** (1) start equals goal, (2) goal unreachable, (3) an ordinary graph with several branches. They separate termination, reachability and branch order. The automated checker does not replace your explanation of any of them.
 
 
-## Step 1 — Trace a search by hand (10 min)
+## Step 1 — Trace a search by hand
+
+**TASK — Step 1:** Trace the first expansions from A by hand using the given neighbour order and a LIFO stack. Predict which node is expanded next and when the search should terminate.
 
 On the course graph (A–F), suppose neighbours are discovered in ascending node order: A sees B, C, D. You put them into a LIFO container in this order.
 
-**Before MATLAB:**
+**TASK — Predict before MATLAB:**
 
-1. Which node is removed next?
-2. If your search encounters F, should it immediately stop? At what precise point in the loop?
-3. How could the search later reconstruct the route without storing every partial route?
+1. **TASK:** Which node is removed next?
+2. **TASK:** If your search encounters F, should it immediately stop? At what precise point in the loop?
+3. **TASK:** How could the search later reconstruct the route without storing every partial route?
 
 Now run:
 
@@ -57,7 +61,9 @@ Stop when **F is removed from OPEN** (after checking that it is not a stale entr
 </details>
 
 
-## Step 2 — Read the supplied skeleton (10 min)
+## Step 2 — Read the supplied skeleton
+
+**TASK — Step 2:** Inspect the provided `dfs_graph.m` skeleton. Locate the container, neighbour loop, predecessor array and goal condition, and state what is still missing.
 
 Open `tasks/dfs_graph.m`. Find these variables and write one phrase next to each:
 
@@ -93,9 +99,11 @@ Temporarily remove only the initial `error('task:todo',...)` line. Run:
 [p, c, st] = dfs_graph(G.W, G.s, G.t)
 ```
 
-**Explain:** Why does the incomplete search fail to reach the goal? Which information is missing inside its neighbour loop?
+**TASK — Explain:** Why does the incomplete search fail to reach the goal? Which information is missing inside its neighbour loop?
 
-## Step 3 — Make the search discover nodes (15 min)
+## Step 3 — Make the search discover nodes
+
+**TASK — Step 3:** Complete `TODO 1` so new neighbours receive a predecessor and are pushed into OPEN. Run the graph example and explain how this allows the search to continue.
 
 Complete `TODO 1` **without looking at the solution file**. Use the helper functions practiced in Chapter 01:
 
@@ -105,7 +113,7 @@ Complete `TODO 1` **without looking at the solution file**. Use the helper funct
 - Remember the predecessor of a newly discovered neighbour.
 - Add the neighbour to OPEN.
 
-**Predict:** With the deliberately incorrect FIFO setting, what order do you expect the first expansions to follow?
+**TASK — Predict:** With the deliberately incorrect FIFO setting, what order do you expect the first expansions to follow?
 
 <details>
 <summary>Show solution (after your own attempt)</summary>
@@ -119,7 +127,9 @@ Run your code and inspect `st.order`. Compare it with your prediction.
 
 If the program does not reach the goal, inspect whether `OPEN` is updated using the returned value of `open_push`.
 
-## Step 4 — Make it depth-first (7 min)
+## Step 4 — Make it depth-first
+
+**TASK — Step 4:** Complete `TODO 2` by selecting the LIFO mode. Compare the expansion order before and after the change and explain why this implements depth-first behaviour.
 
 Complete `TODO 2` by selecting the correct container mode.
 
@@ -138,7 +148,9 @@ The container controls **which discovered node is expanded next**, so it determi
 </details>
 
 
-## Step 5 — Stop at the goal and validate (8 min)
+## Step 5 — Stop at the goal and validate
+
+**TASK — Step 5:** Complete `TODO 3` so the search stops when the goal is removed from OPEN. Run `check_my_code('dfs')`, inspect the returned path and cost, and explain any failed test.
 
 Complete `TODO 3`: stop when the node **removed from OPEN** is the goal.
 
@@ -176,7 +188,9 @@ DFS does not use weights when choosing its next node. Its LIFO order leads it al
 </details>
 
 
-## Step 6 — One small experiment (5 min)
+## Step 6 — One small experiment
+
+**TASK — Step 6:** Change only the weight of edge A–D in a temporary graph. Run your DFS again and explain why its selected route can remain unchanged although its cost changes.
 
 Create a modified graph:
 
@@ -198,6 +212,8 @@ Changing A–D from weight 6 to weight 2 keeps the graph topology and neighbour 
 
 
 ## Checkpoint
+
+**TASK — Required:** Confirm the algorithm returns a legal route and that you can explain OPEN, `seen`, `closed`, `par` and the reason DFS does not guarantee minimum cost.
 
 - [ ] My file passes `check_my_code('dfs')`.
 - [ ] I can explain the different roles of `seen`, `closed` and `par`.

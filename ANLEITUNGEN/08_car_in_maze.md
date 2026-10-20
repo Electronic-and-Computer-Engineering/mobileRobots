@@ -12,14 +12,16 @@ Your **own path planner** must find a route through a random obstacle field. The
 
 **Important distinction:** This task animates a car shape moving from grid cell to grid cell. It does *not* simulate steering angle, speed-dependent turning radius, tire forces or the CrazyCar simulator. Those belong to a subsequent vehicle-motion lab. The assignment here is to connect your own planner to an observable moving agent.
 
-## Step 1 — Understand the provided animation (5–10 min)
+## Step 1 — Understand the provided animation
+
+**TASK — Step 1:** Open `demos/demo_car_visualization.m` and `tools/animate_car_grid.m`. Run the animation, inspect how a path becomes cell indices, and change `StepPause` to test what it actually controls.
 
 **Open these files:** `demos/demo_car_visualization.m` and `tools/animate_car_grid.m`.
 
-1. Find the occupancy grid `M`. What does a `1` mean?
-2. Find the arrays `rr` and `cc`. How are they turned into a sequence of cell indices with `sub2ind`?
-3. Run `demo_car_visualization`. Observe the orientation of the car shape at a turn.
-4. Set `'StepPause'` to `0.02`. Does the route or reported path cost change? Why?
+1. **TASK:** Find the occupancy grid `M`. What does a `1` mean?
+2. **TASK:** Find the arrays `rr` and `cc`. How are they turned into a sequence of cell indices with `sub2ind`?
+3. **TASK:** Run `demo_car_visualization`. Observe the orientation of the car shape at a turn.
+4. **TASK:** Set `'StepPause'` to `0.02`. Does the route or reported path cost change? Why?
 
 <details>
 <summary>Show explanation (after your own attempt)</summary>
@@ -28,7 +30,9 @@ Your **own path planner** must find a route through a random obstacle field. The
 
 </details>
 
-## Step 2 — Which code performs the actual planning? (10 min)
+## Step 2 — Which code performs the actual planning?
+
+**TASK — Step 2:** Open `tools/search_student_grid.m`, identify the call to the student planner and run A* on a seeded obstacle field. Explain the output path, cost and statistics.
 
 Open `tools/search_student_grid.m`. Locate the `switch` over the method name. It calls the **student's** `dfs_graph`, `bfs_graph`, `dijkstra_graph`, `greedy_graph` or `astar_graph`.
 
@@ -40,9 +44,11 @@ Run this in the MATLAB command window:
 figure; plot_grid(M, 'Path', p, 'Expanded', st.order, 'Start', s, 'Goal', t);
 ```
 
-**Explain:** Why must this call use `search_student_grid` rather than the already-completed reference function `search_grid`? What are the meanings of `p`, `c` and `st`?
+**TASK — Explain:** Why must this call use `search_student_grid` rather than the already-completed reference function `search_grid`? What are the meanings of `p`, `c` and `st`?
 
-## Step 3 — Connect planning and vehicle animation (15–25 min)
+## Step 3 — Connect planning and vehicle animation
+
+**TASK — Step 3:** Complete `tasks/car_in_maze.m`: obtain the route from your own planner, handle an empty route safely and animate only a valid nonempty path.
 
 **Edit only:** `tasks/car_in_maze.m`.
 
@@ -54,9 +60,9 @@ The interface is already specified:
 
 Derive the missing three actions:
 
-1. **Planning:** Call `search_student_grid` with the map, endpoints and algorithm name. Store all three returned values.
-2. **Safety:** Before drawing, check whether the returned path is empty. If it is empty, stop without calling the animation helper.
-3. **Driving the display:** If `showAnimation` is true and the route is nonempty, call `animate_car_grid(M, path)`.
+1. **TASK:** **Planning:** Call `search_student_grid` with the map, endpoints and algorithm name. Store all three returned values.
+2. **TASK:** **Safety:** Before drawing, check whether the returned path is empty. If it is empty, stop without calling the animation helper.
+3. **TASK:** **Driving the display:** If `showAnimation` is true and the route is nonempty, call `animate_car_grid(M, path)`.
 
 **Why this ordering?** Drawing cannot find a route. A route may not exist. A successful planner and a valid nonempty path must be established before displaying the vehicle.
 
@@ -76,7 +82,9 @@ end
 
 </details>
 
-## Step 4 — Check and vary one parameter (10–15 min)
+## Step 4 — Check and vary one parameter
+
+**TASK — Step 4:** Run `check_car_maze` and `experiments/08_car_experiment.m`. Change a seed or planning method and explain why the animation is not yet a physical steering simulation.
 
 ```matlab
 check_my_code('astar')
@@ -96,6 +104,8 @@ A* uses `g+h` to prioritize candidate nodes, while BFS explores in increasing nu
 </details>
 
 ## Result to keep
+
+**TASK — Required:** Keep the working `tasks/car_in_maze.m` and be able to show where planning ends and where path visualization begins.
 
 Your completed `tasks/car_in_maze.m` produces a visually verifiable animation using your planner. You should also be able to explain the separation between **route computation** and **route execution**.
 

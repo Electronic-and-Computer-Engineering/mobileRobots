@@ -1,5 +1,7 @@
 # MATLAB workspace
 
+**TASK — MATLAB setup:** Set MATLAB Current Folder to this `MATLAB/` directory, run `setup_path` and `check_tools`, then edit only the files in `tasks/` as directed by the Markdown chapters.
+
 Open **this `MATLAB/` folder as your MATLAB Current Folder**. The documents are one level above, in `ANLEITUNGEN/`.
 
 ```matlab

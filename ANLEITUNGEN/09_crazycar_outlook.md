@@ -23,6 +23,8 @@ in general.
 
 ### Phase 1 — Drive an existing path
 
+**OPTIONAL FUTURE TASK — Phase 1:** Given an actual simulator interface, drive a known planned route at conservative speed and determine how discrete grid coordinates map to track coordinates.
+
 The students take a feasible route returned by A*, map its points to the simulator's track coordinates, and drive it with a **given** controller and conservative constant speed. The instructor must first provide the simulator interface and clarify its coordinate systems, control inputs and collision model.
 
 Questions: Does the simulated car follow cell-center waypoints exactly? What happens at sharp corners? Why is collision-free grid movement not sufficient to ensure a driveable car path?
@@ -39,11 +41,15 @@ The exact behaviour depends on the CrazyCar simulator and controller, which are 
 
 ### Phase 2 — Generate a smoother reference line
 
+**OPTIONAL FUTURE TASK — Phase 2:** Create a continuous reference line from a discrete path and check that smoothing does not introduce collisions or violate clearance.
+
 Use interpolation or a smoothing procedure to create a continuous geometric reference. Preserve collision clearance: a smoothed curve can cross a wall even if its original grid route does not.
 
 A suitable objective may combine distance, curvature and safety clearance, but **the weights must be defined**; do not assume minimizing geometric curvature always minimizes lap time.
 
 ### Phase 3 — Add vehicle dynamics and timing
+
+**OPTIONAL FUTURE TASK — Phase 3:** Use a specified vehicle model to evaluate steering, speed and curvature limits along the reference route.
 
 A simple kinematic bicycle model is a reasonable first step:
 
@@ -71,6 +77,8 @@ v\le \sqrt{\frac{a_{y,\max}}{|\kappa|}}.
 This is only a **first approximation**. Steering dynamics, tire grip, braking, acceleration, discretization and simulator-specific limitations may also matter.
 
 ### Phase 4 — Optimize lap time
+
+**OPTIONAL FUTURE TASK — Phase 4:** Formulate a minimum-time trajectory problem with the actual vehicle limits and compare it against a minimum-distance route.
 
 With distance along the path denoted by \(s\), a continuous lap time can be written formally as
 

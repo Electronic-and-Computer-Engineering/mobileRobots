@@ -2,10 +2,10 @@
 
 # 06 — A*: combine travelled cost and remaining estimate
 
-**Block 2 · 45 min CORE / 60 min full version · Edit `tasks/astar_graph.m`**
+**Block 2 · Guided MATLAB exercise**
 
 
-> **Compact CORE route (~45 min):** Core: Steps 1, 2, 3 and 5. Optional: Step 4 (invalid heuristic experiment). See [CORE_ROUTE.md](CORE_ROUTE.md). The original detailed time estimates and exercises below are the **full** version, not required to fit the compact core time.
+> **Required activities:** Follow the steps marked **TASK** in order. Additional experiments are available for deeper investigation; they are not separate submissions. See [CORE_ROUTE.md](CORE_ROUTE.md).
 
 ## Goal
 
@@ -19,6 +19,8 @@ Implement A* using your Dijkstra search as the starting point, then test when an
 
 ### File tour — one key connects three algorithms
 
+**TASK — Required:** Open `tasks/astar_graph.m` beside your Dijkstra code. Locate the two OPEN insertions where the priority must change from `g` to `g+h`.
+
 Open **`tasks/dijkstra_graph.m`** and **`tasks/astar_graph.m`** side by side. Keep Dijkstra's relaxation intact: the actual cost `g` still matters. Your task is to change what priority OPEN assigns to a discovered node.
 
 | Algorithm | OPEN priority | Why |
@@ -30,7 +32,9 @@ Open **`tasks/dijkstra_graph.m`** and **`tasks/astar_graph.m`** side by side. Ke
 Before editing, identify **every** call to `open_push`: do not forget the first insertion of the start node. A single incorrect key can silently change node order while still returning a plausible path.
 
 
-## Step 1 — Choose a node on paper (10 min)
+## Step 1 — Choose a node on paper
+
+**TASK — Step 1:** Calculate `g`, `h` and `f=g+h` for A's neighbours on paper. Predict the next expanded node and compare it with Greedy and Dijkstra.
 
 Use the course graph. After expanding A, its neighbours have these known costs:
 
@@ -62,7 +66,9 @@ A* accounts for the **actual cost of getting to D**, so the tempting heuristic v
 </details>
 
 
-## Step 2 — Construct A* (20 min)
+## Step 2 — Construct A*
+
+**TASK — Step 2:** Implement A* by copying Dijkstra, adding the heuristic argument and using `g+h` for both OPEN insertions. Run `check_my_code('astar')`.
 
 Open `tasks/astar_graph.m` and copy your completed `dijkstra_graph.m` into it.
 
@@ -87,7 +93,7 @@ check_my_code('astar')
 
 For the supplied deterministic graph, A* should return A–B–E–F, cost 3, after four expansions.
 
-**Explain:** Which node does Dijkstra expand that A* does not have to expand on this example?
+**TASK — Explain:** Which node does Dijkstra expand that A* does not have to expand on this example?
 
 <details>
 <summary>Show solution (after your own attempt)</summary>
@@ -97,7 +103,9 @@ Dijkstra expands **C** before reaching F, because C still has a low accumulated 
 </details>
 
 
-## Step 3 — Remove the heuristic (10 min)
+## Step 3 — Remove the heuristic
+
+**TASK — Step 3:** Run A* with a zero heuristic and compare path, cost and expansion order with Dijkstra. Explain why the decision rules become identical.
 
 Predict what happens if `h(v)=0` for all nodes. Then verify:
 
@@ -119,7 +127,9 @@ Yes. A* chooses nodes using `f(v)=g(v)+h(v)`. Setting **`h(v)=0` for every node*
 </details>
 
 
-## Step 4 — Deliberately use a bad heuristic (10 min)
+## Step 4 — Deliberately use a bad heuristic
+
+**TASK — Step 4:** Deliberately test an unsuitable heuristic on the small graph. Observe whether A* still finds the minimum-cost path and explain the role of admissibility and consistency.
 
 An admissible heuristic satisfies \(h(v)\le h^*(v)\), where \(h^*(v)\) is the true minimum remaining cost. On our grid with the usual Manhattan or Octile estimates, the heuristics are also **consistent**, which is important for our particular A* implementation: nodes are closed permanently and not reopened.
 
@@ -149,7 +159,9 @@ A* therefore expands **D**, then can reach F for total cost 7 before exploring B
 
 **Critical distinction:** An inadmissible heuristic *can* lead to a worse route; it does not have to fail on every map. A* also requires appropriate handling of inconsistent heuristics if closed nodes are never reopened.
 
-## Step 5 — Bring your own A* onto a grid (10 min)
+## Step 5 — Bring your own A* onto a grid
+
+**TASK — Step 5:** Run your own A* and Dijkstra on the same grid through `search_student_grid`. Compare costs and expansions and explain the effect of the heuristic.
 
 ```matlab
 [M, s, t] = maze_obstacles(20, 30, 0.20, 7);
@@ -170,7 +182,7 @@ fprintf('A*       cost %.3f, expansions %d\n', cA, sA.expansions);
 
 These results come from your own implementations, not the original prewritten `search_grid` routine. If the paths have the same cost but different shapes, consider equally optimal alternatives and tie-breaking before calling one result wrong.
 
-**Explain:** What information enables A* to avoid searching parts of the map that Dijkstra examines?
+**TASK — Explain:** What information enables A* to avoid searching parts of the map that Dijkstra examines?
 
 <details>
 <summary>Show solution (after your own attempt)</summary>
@@ -181,6 +193,8 @@ Dijkstra prioritizes only **known cost from the start**. A* adds an **estimate o
 
 
 ## Checkpoint
+
+**TASK — Required:** Explain each term in `f=g+h`, the two modified code locations and when the optimality guarantee applies.
 
 - [ ] `check_my_code('astar')` passes.
 - [ ] I can derive `f = g + h` and explain every term.

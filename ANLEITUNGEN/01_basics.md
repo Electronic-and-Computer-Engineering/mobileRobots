@@ -2,19 +2,21 @@
 
 # 01 — Understand the toolbox before using it
 
-**Block 1 · 55 min CORE / 90 min full version · Work in MATLAB**
+**Block 1 · Guided MATLAB exercise**
 
 
-> **Compact CORE route (~55 min):** Core: Activities 1–6, **one parameter change per activity**; optional: additional reverse-engineering tasks and repeated plots. See [CORE_ROUTE.md](CORE_ROUTE.md). The original detailed time estimates and exercises below are the **full** version, not required to fit the compact core time.
+> **Required activities:** Follow the steps marked **TASK** in order. Additional experiments are available for deeper investigation; they are not separate submissions. See [CORE_ROUTE.md](CORE_ROUTE.md).
 
 ## Your route through the files
 
+**TASK — Required:** Open `experiments/01_toolbox_experiments.m`, work through its sections in order and use the matching `demos/demo_*.m` files to investigate the supplied functions. For every experiment, predict the outcome, run it, change one input and explain what you observed.
+
 **Do not begin by implementing a search algorithm.** Today you will investigate the tools that make the algorithms possible.
 
-1. In MATLAB, run `setup_path` and `check_tools`. The second command checks the **provided infrastructure**, not your future algorithms.
-2. Open `experiments/01_toolbox_experiments.m`. This is **your editable experiment file**, with one MATLAB section (`%%`) per activity. Run one section at a time with **Run Section**. You may also type the short commands shown below directly in the Command Window.
-3. For every activity, open the matching `demos/demo_*.m` in a **second Editor tab**. Read the inputs and the calls to helper functions; run the demo once, then change parameters in **your experiment file**, never in `tools/`.
-4. Before each run, write a prediction. Afterwards, explain the observed result and what the behaviour contributes to a later planner.
+1. **TASK:** In MATLAB, run `setup_path` and `check_tools`. The second command checks the **provided infrastructure**, not your future algorithms.
+2. **TASK:** Open `experiments/01_toolbox_experiments.m`. This is **your editable experiment file**, with one MATLAB section (`%%`) per activity. Run one section at a time with **Run Section**. You may also type the short commands shown below directly in the Command Window.
+3. **TASK:** For every activity, open the matching `demos/demo_*.m` in a **second Editor tab**. Read the inputs and the calls to helper functions; run the demo once, then change parameters in **your experiment file**, never in `tools/`.
+4. **TASK:** Before each run, write a prediction. Afterwards, explain the observed result and what the behaviour contributes to a later planner.
 
 | Activity | File to inspect and run | What you investigate | Used later in |
 |---|---|---|---|
@@ -25,8 +27,6 @@
 | 6 | `demos/demo_maps.m`, `demos/demo_pattern.m` | Seeds, search loop, reachability | **All algorithms and final comparison** |
 
 **How to reverse-engineer:** You do not need to read an entire helper function. First hypothesize how it behaves, choose an input that distinguishes plausible behaviours, run the experiment, and justify your conclusion. Use the collapsed solution only **after** your test.
-
-> **Time management:** Approximately 20 minutes of this chapter are reserved for opening/running the actual demos, checking unexpected results and discussing the transfer to the algorithms. Do the numbered tasks first. The extra investigations marked **Further investigation** are useful for faster pairs and for preparing the final comparison.
 
 
 ## What you should be able to do
@@ -43,16 +43,18 @@ OPEN = open_push(OPEN, 3);
 
 You should also be able to answer: *What is a node? What is a neighbour? What is stored in `par`? How does a grid cell receive its node number?*
 
-## Activity 1 — OPEN is a decision rule (15 min)
+## Activity 1 — OPEN is a decision rule
+
+**TASK — Activity 1:** Open `demos/demo_container.m` and Section 1 of `experiments/01_toolbox_experiments.m`. Test `lifo`, `fifo` and `minkey` with the same nodes. Predict the extraction order, change the priorities and explain how OPEN determines the next node.
 
 **Provided:** `open_new`, `open_push`, `open_pop`, `open_isempty`, `open_size`.
 
 **Where and why:** Open `demos/demo_container.m` and find the three sections that call `open_new('lifo')`, `open_new('fifo')` and `open_new('minkey')`. Run `demo_container` once, noting the order in which each node leaves OPEN. Then switch to **Section 1** of `experiments/01_toolbox_experiments.m` and reproduce the behaviour with **your own input values**. This matters because the container, rather than the map, chooses the next node to investigate.
 
-**One-variable experiment:** Change **only** the OPEN mode. Keep the node sequence unchanged. Afterwards keep `'minkey'` fixed and change **only** the keys. Can the first node taken from OPEN change even though the insertion order stays the same?
+**TASK — Change one parameter:** Change **only** the OPEN mode. Keep the node sequence unchanged. Afterwards keep `'minkey'` fixed and change **only** the keys. Can the first node taken from OPEN change even though the insertion order stays the same?
 
 
-**Predict, on paper:** Insert nodes `4, 2, 7` in this order. What is the removal order for `'fifo'` and `'lifo'`? In `'minkey'`, give nodes `4, 2, 7` the priorities `3, 8, 1`: what is the removal order?
+**TASK — Predict on paper:** Insert nodes `4, 2, 7` in this order. What is the removal order for `'fifo'` and `'lifo'`? In `'minkey'`, give nodes `4, 2, 7` the priorities `3, 8, 1`: what is the removal order?
 
 <details>
 <summary>Show solution (after your own attempt)</summary>
@@ -70,7 +72,7 @@ A priority is **not** the node number. Identical node IDs can also occur several
 </details>
 
 
-**Do this yourself:** Use Section 1 in `experiments/01_toolbox_experiments.m`; the equivalent minimal code is shown here for reference:
+**TASK — Execute:** Use Section 1 in `experiments/01_toolbox_experiments.m`; the equivalent minimal code is shown here for reference:
 
 ```matlab
 OPEN = open_new('fifo');
@@ -86,14 +88,14 @@ end
 out
 ```
 
-1. Verify your predictions for FIFO and LIFO by changing the mode.
-2. For priority-based search, use `open_push(OPEN, node, priority)` and verify the result.
-3. Insert a repeated node using `'minkey'` with a different priority. Observe that the container does not automatically remove duplicates.
-4. Intentionally omit `OPEN =` before one `open_push` call. Does the result change? Why?
+1. **TASK:** Verify your predictions for FIFO and LIFO by changing the mode.
+2. **TASK:** For priority-based search, use `open_push(OPEN, node, priority)` and verify the result.
+3. **TASK:** Insert a repeated node using `'minkey'` with a different priority. Observe that the container does not automatically remove duplicates.
+4. **TASK:** Intentionally omit `OPEN =` before one `open_push` call. Does the result change? Why?
 
 **Checkpoint:** Explain the difference between *insertion order*, *priority*, and *duplicate entries*. Later, those will determine which search algorithm you have implemented.
 
-**Reverse-engineering question:** Does inserting node `5` with key 10 and later node `5` with key 2 *replace* the older entry or create two entries? Design a call sequence using `open_size`, `open_pop` and its optional key output that distinguishes both hypotheses.
+**TASK — Reverse-engineer:** Does inserting node `5` with key 10 and later node `5` with key 2 *replace* the older entry or create two entries? Design a call sequence using `open_size`, `open_pop` and its optional key output that distinguishes both hypotheses.
 
 <details>
 <summary>Show solution (after your own attempt)</summary>
@@ -103,7 +105,9 @@ Both entries remain in this supplied container. After the two pushes, `open_size
 </details>
 
 
-## Activity 2 — Ask a graph about its neighbours (10 min)
+## Activity 2 — Ask a graph about its neighbours
+
+**TASK — Activity 2:** Open `demos/demo_graph.m` and Section 2 of your experiment file. Query the neighbours of A and another node with `graph_neighbors`. Compare the node IDs and edge weights with the plotted graph.
 
 The lecture models a planning problem as a weighted graph \(G=(V,E,w)\). For this lab, the given six-node graph has nodes A–F, numbered 1–6. A–D is an expensive shortcut.
 
@@ -114,7 +118,7 @@ The lecture models a planning problem as a weighted graph \(G=(V,E,w)\). For thi
 **Investigate, do not just read the output:** Compare `[nb,w]` with row `G.W(1,:)` and explain what a zero matrix entry means. Predict the output for E (node 5) before changing the queried node.
 
 
-**Predict:** Which nodes are adjacent to A? Which has the most expensive connection from A?
+**TASK — Predict:** Which nodes are adjacent to A? Which has the most expensive connection from A?
 
 <details>
 <summary>Show solution (after your own attempt)</summary>
@@ -132,14 +136,14 @@ G = graph_example();
 plot_graph(G, 'Title', 'The course graph');
 ```
 
-1. For node E (index 5), query and record all neighbours and edge costs.
-2. Change the graph *in a temporary copy*: `W2 = G.W; W2(1,4) = 2; W2(4,1) = 2;`.
-3. Re-run the neighbour query. Which results change, and which do not?
-4. Explain why `graph_neighbors` returns **two** vectors of equal length.
+1. **TASK:** For node E (index 5), query and record all neighbours and edge costs.
+2. **TASK:** Change the graph *in a temporary copy*: `W2 = G.W; W2(1,4) = 2; W2(4,1) = 2;`.
+3. **TASK:** Re-run the neighbour query. Which results change, and which do not?
+4. **TASK:** Explain why `graph_neighbors` returns **two** vectors of equal length.
 
 **Checkpoint:** If `nb(k)` names the neighbour, what does `w(k)` mean?
 
-**Reverse-engineering question:** Change only `W2(1,4)`, leaving `W2(4,1)` unchanged, and query both directions. What does this show about an *undirected* graph and the graph representation? Restore symmetry afterwards.
+**TASK — Reverse-engineer:** Change only `W2(1,4)`, leaving `W2(4,1)` unchanged, and query both directions. What does this show about an *undirected* graph and the graph representation? Restore symmetry afterwards.
 
 <details>
 <summary>Show solution (after your own attempt)</summary>
@@ -149,16 +153,18 @@ The matrix stores **two directions separately**. If only `W2(1,4)` changes, quer
 </details>
 
 
-## Activity 3 — Reconstruct a route (10 min)
+## Activity 3 — Reconstruct a route
+
+**TASK — Activity 3:** In `demos/demo_graph.m` and Section 3 of the experiment file, inspect a `par` array. Predict the path, use `reconstruct_path`, then change a predecessor and explain how the result changes.
 
 A search does not store the entire path for every partial route. It records each node's **predecessor**, `par(v)`.
 
 **Where and why:** Stay in `demos/demo_graph.m` and find the `par` vector and the call to `reconstruct_path`. Run the demo and read the `par` entries **backwards from the goal**, rather than copying the displayed path. Then use **Section 3** of your experiment file to construct your own predecessor chain.
 
-**One-variable experiment:** Modify the predecessor chain while keeping the graph unchanged. Does the *search algorithm* run again? Or can the final path be assembled using only predecessor information? Explain why search algorithms store `par(v)` during expansion.
+**TASK — Change one parameter:** Modify the predecessor chain while keeping the graph unchanged. Does the *search algorithm* run again? Or can the final path be assembled using only predecessor information? Explain why search algorithms store `par(v)` during expansion.
 
 
-**Predict:** If F came from E, E from B, and B from A, what path will be reconstructed?
+**TASK — Predict:** If F came from E, E from B, and B from A, what path will be reconstructed?
 
 <details>
 <summary>Show solution (after your own attempt)</summary>
@@ -178,14 +184,16 @@ par(6) = 5;
 [p, c] = reconstruct_path(par, 1, 6, G.W)
 ```
 
-1. Check your prediction and the total cost against the graph.
-2. Change the parent of F to D and that of D to A. Do not change anything else. What happens to the path and cost?
-3. Test an unreachable goal using a fresh `zeros(6,1)` predecessor array.
-4. Explain the difference between `p = []` and a valid path with zero edges (`s == t`).
+1. **TASK:** Check your prediction and the total cost against the graph.
+2. **TASK:** Change the parent of F to D and that of D to A. Do not change anything else. What happens to the path and cost?
+3. **TASK:** Test an unreachable goal using a fresh `zeros(6,1)` predecessor array.
+4. **TASK:** Explain the difference between `p = []` and a valid path with zero edges (`s == t`).
 
 **Checkpoint:** What information must your algorithm update when it discovers a node?
 
-## Activity 4 — From cells to node numbers (15 min)
+## Activity 4 — From cells to node numbers
+
+**TASK — Activity 4:** Open `demos/demo_grid.m` and Section 4 of the experiment file. Convert between `(row,column)` and linear indices, query 4- and 8-neighbours, and test why a diagonal through blocked corners must be rejected.
 
 In the occupancy grid, `0` means free space and `1` means an obstacle. MATLAB uses **column-major linear indexing**.
 
@@ -217,16 +225,18 @@ Legal 4-neighbours: `(1,3)`, `(3,3)` and `(2,4)`, with linear indices **7, 9, 11
 </details>
 
 
-1. Convert every entry of `nb4` back to `(row,column)` and verify it on the matrix.
-2. Compare `nb4` with `nb8`; which additional moves become legal?
-3. Compare costs for horizontal, vertical and diagonal movement.
-4. Construct a small map in which moving diagonally would pass between two obstacles. Compare `grid_neighbors(M,u,8,false)` with `grid_neighbors(M,u,8,true)`.
+1. **TASK:** Convert every entry of `nb4` back to `(row,column)` and verify it on the matrix.
+2. **TASK:** Compare `nb4` with `nb8`; which additional moves become legal?
+3. **TASK:** Compare costs for horizontal, vertical and diagonal movement.
+4. **TASK:** Construct a small map in which moving diagonally would pass between two obstacles. Compare `grid_neighbors(M,u,8,false)` with `grid_neighbors(M,u,8,true)`.
 
 ![4-neighbourhood](figures/01_grid_nb4.png)
 
 **Checkpoint:** Why is a legal diagonal move generally more expensive than a horizontal step? Why is corner cutting a physical problem rather than a plotting error?
 
-## Activity 5 — A heuristic is an estimate (10 min)
+## Activity 5 — A heuristic is an estimate
+
+**TASK — Activity 5:** Open `demos/demo_heuristic.m` and Section 5 of the experiment file. Compare heuristic values for selected cells, change the heuristic type and explain the difference between a geometric estimate and an actual obstacle-aware path cost.
 
 A heuristic `h(v)` estimates the remaining cost from node `v` to the goal. It does **not** inspect obstacles.
 
@@ -265,13 +275,15 @@ Thus **Manhattan is largest**, then Octile, then Euclidean. Since these estimate
 </details>
 
 
-1. Change only the goal index and repeat.
-2. Use `'zero'` as the heuristic and describe what information it provides.
-3. Draw an obstacle between `u` and `t` without changing either endpoint. Explain why the heuristic value stays the same.
+1. **TASK:** Change only the goal index and repeat.
+2. **TASK:** Use `'zero'` as the heuristic and describe what information it provides.
+3. **TASK:** Draw an obstacle between `u` and `t` without changing either endpoint. Explain why the heuristic value stays the same.
 
 **Checkpoint:** For unit-cost 4-neighbour moves, which heuristic matches the unobstructed grid distance? For 8-neighbour moves with diagonal cost `sqrt(2)`, which one is appropriate?
 
-## Activity 6 — Generate maps and recognize the loop (10 min)
+## Activity 6 — Generate maps and recognize the loop
+
+**TASK — Activity 6:** Run `demos/demo_maps.m`, Section 6 of the experiment file and `demos/demo_pattern.m`. Change a random seed, reproduce a map, then identify where the common search loop removes and expands nodes.
 
 **Where and why:** First open `demos/demo_maps.m` and run `demo_maps`; then run **Section 6** of your experiment file with your own seeds. Finally open `demos/demo_pattern.m`, find its ten numbered operations and execute `demo_pattern` once. You should be able to say: **which line chooses the next node, which queries neighbours, which prevents repeated visits?** This will become the skeleton of DFS and BFS.
 
@@ -286,14 +298,14 @@ figure; plot_grid(M1, 'Start', s1, 'Goal', t1, 'Title', 'Obstacle field');
 figure; plot_grid(M2, 'Title', 'Perfect maze');
 ```
 
-1. Generate `M1` twice with the same seed: what remains identical?
-2. Change the seed: what changes?
-3. Explain why a perfect maze with 4-neighbour movement has only one path between two connected free cells, whereas an obstacle field may have alternatives.
-4. Open and run `demo_pattern`, then identify where it **takes a node from OPEN** and where it **discovers neighbours**. Do not copy the loop into your search yet.
+1. **TASK:** Generate `M1` twice with the same seed: what remains identical?
+2. **TASK:** Change the seed: what changes?
+3. **TASK:** Explain why a perfect maze with 4-neighbour movement has only one path between two connected free cells, whereas an obstacle field may have alternatives.
+4. **TASK:** Open and run `demo_pattern`, then identify where it **takes a node from OPEN** and where it **discovers neighbours**. Do not copy the loop into your search yet.
 
 **Checkpoint:** What three changes turn the reachability loop in `demo_pattern` into a path search from start to goal?
 
-**Further investigation (optional):** In `demo_pattern.m`, `seen` is updated **when a neighbour enters OPEN**, not when it comes out. Predict what might happen if you moved `seen(v)=true` to after removal instead, and, if time permits, test the hypothesis by copying the short loop into a **separate scratch script**, not by altering the original demonstration.
+**OPTIONAL TASK — Further investigation:** In `demo_pattern.m`, `seen` is updated **when a neighbour enters OPEN**, not when it comes out. Predict what might happen if you moved `seen(v)=true` to after removal instead, and optionally test the hypothesis by copying the short loop into a **separate scratch script**, not by altering the original demonstration.
 
 <details>
 <summary>Show solution (after your own attempt)</summary>
@@ -316,6 +328,8 @@ The underlying OPEN/expand/neighbours loop remains the same. A perfect maze gene
 
 
 ## Before continuing
+
+**TASK — Required:** Check that you can explain the return values of the helper functions without relying on the demos. If something is unclear, rerun the corresponding experiment; there is no separate written submission.
 
 - [ ] I can operate all three OPEN modes without copying an example.
 - [ ] I can query a graph and a grid for neighbours and costs.
