@@ -89,9 +89,10 @@ out
 ```
 
 1. **TASK:** Verify your predictions for FIFO and LIFO by changing the mode.
-2. **TASK:** For priority-based search, use `open_push(OPEN, node, priority)` and verify the result.
+2. **TASK:** For priority-based search (`'minkey'`), use `open_push(OPEN, node, priority)` and verify the result.
 3. **TASK:** Insert a repeated node using `'minkey'` with a different priority. Observe that the container does not automatically remove duplicates.
-4. **TASK:** Intentionally omit `OPEN =` before one `open_push` call. Does the result change? Why?
+4. **TASK:** Intentionally omit (weglassen) `OPEN =` before one `open_push` call. Does the result change? Why?
+5. **TASK:** What happens after using `open_pop` ? What happens to the container OPEN?
 
 **Checkpoint:** Explain the difference between *insertion order*, *priority*, and *duplicate entries*. Later, those will determine which search algorithm you have implemented.
 
