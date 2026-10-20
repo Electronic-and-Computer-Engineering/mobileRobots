@@ -18,8 +18,6 @@ Each activity follows the same sequence: **Open the named file → predict → r
 | `tasks/dfs_graph.m` + [Chapter 02](02_depth_first.md) | Build DFS progressively; run `check_my_code('dfs')` | 45 min |
 | `tasks/bfs_graph.m` + [Chapter 03](03_breadth_first.md) | Derive BFS from DFS; run `check_my_code('bfs')` | 25 min |
 
-**Guided portion: ~110 min.** The remainder of 180 minutes is available for problems, conversation, debugging and deeper experiments. Time is a guide, not a deadline.
-
 ## Block 2 — Weighted planning, heuristics, A*
 
 | Open in MATLAB | Guided focus | Suggested time |
@@ -27,8 +25,6 @@ Each activity follows the same sequence: **Open the named file → predict → r
 | `tasks/dijkstra_graph.m` + [Chapter 04](04_dijkstra.md) | Understand cost updates (`g`) and relaxation, then implement | 55 min |
 | `tasks/greedy_graph.m` + [Chapter 05](05_greedy.md) | Prioritize by `h` rather than insertion order | 25 min |
 | `tasks/astar_graph.m` + [Chapter 06](06_astar.md) | Prioritize by `g+h`; test with `h=0` | 40 min |
-
-**Guided portion: ~120 min.** Use the rest for questions and independent tests. All five programs must be understandable, not merely copied.
 
 ## Block 3 — Random maps and car animation
 
@@ -39,8 +35,6 @@ Each activity follows the same sequence: **Open the named file → predict → r
 | `demos/demo_car_visualization.m` | See the provided grid-car animation helper | 10 min |
 | `tasks/car_in_maze.m` + [Chapter 08](08_car_in_maze.md) | Connect your planner and car animation | 35 min |
 | `checks/check_car_maze.m` and `experiments/08_car_experiment.m` | Verify and explain the complete behaviour | 15 min |
-
-**Guided portion: ~115 min.** The remaining time is for troubleshooting and an oral explanation of your implementation.
 
 ## Only the intended final results
 
