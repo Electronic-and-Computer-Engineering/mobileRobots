@@ -84,12 +84,12 @@ end
 
 ## Step 4 — Check and vary one parameter
 
-**TASK — Step 4:** Run `check_car_maze` and `experiments/08_car_experiment.m`. Change a seed or planning method and explain why the animation is not yet a physical steering simulation.
+**TASK — Step 4:** Run `check_car_maze` and `experiments/experiment_car_maze.m`. Change a seed or planning method and explain why the animation is not yet a physical steering simulation.
 
 ```matlab
 check_my_code('astar')
 check_car_maze
-run('experiments/08_car_experiment.m')
+run('experiments/experiment_car_maze.m')
 ```
 
 Try a second maze seed, then switch the method from `'astar'` to `'bfs'`. Keep the map and endpoints unchanged while comparing the two planners.

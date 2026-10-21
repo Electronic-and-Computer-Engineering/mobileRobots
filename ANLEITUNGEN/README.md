@@ -1,25 +1,19 @@
-# Mobile Robots — Path Planning Lab
+# Mobile Robots — MATLAB lab instructions
 
-**Guided MATLAB laboratory · FH JOANNEUM**
+**FH JOANNEUM**
 
-This folder contains the student lab instructions in English. MATLAB code and actual runnable functions are in the sibling folder `../MATLAB/`.
+**TASK — Start here:** Open [CORE_ROUTE.md](CORE_ROUTE.md) and follow the individually labelled **TASK** instructions. Every MATLAB experiment has its own descriptive `.m` file under `../MATLAB/experiments/`. Do not change the provided `tools/` functions.
 
-## Navigation
-
-**TASK — Start:** Open [CORE_ROUTE.md](CORE_ROUTE.md), work through the named MATLAB files and consult the detailed chapters when you need an explanation. Each activity clearly labels its **TASK**.
-
-| No. | Chapter | MATLAB focus |
+| Chapter | What you learn or build | MATLAB starting point |
 |---|---|---|
-| 01 | [Toolbox / supplied functions](01_basics.md) | `demos/`, `experiments/01_toolbox_experiments.m` |
-| 02 | [Depth-first search](02_depth_first.md) | `tasks/dfs_graph.m` |
-| 03 | [Breadth-first search](03_breadth_first.md) | `tasks/bfs_graph.m` |
-| 04 | [Dijkstra](04_dijkstra.md) | `tasks/dijkstra_graph.m` |
-| 05 | [Greedy Best-First](05_greedy.md) | `tasks/greedy_graph.m` |
-| 06 | [A*](06_astar.md) | `tasks/astar_graph.m` |
-| 07 | [Random mazes and comparisons](07_comparison.md) | `experiments/07_random_comparison.m` |
-| 08 | [Car in the maze](08_car_in_maze.md) | `tasks/car_in_maze.m` |
-| 09 | [CrazyCar / vehicle-motion outlook](09_crazycar_outlook.md) | Conceptual follow-up, no simulator included |
+| [01 Toolbox](01_basics.md) | OPEN, graph, grids, estimates and maps | `experiments/experiment_open_fifo_lifo.m` |
+| [02 DFS](02_depth_first.md) | LIFO-based graph search | `tasks/dfs_graph.m` |
+| [03 BFS](03_breadth_first.md) | FIFO-based graph search | `tasks/bfs_graph.m` |
+| [04 Dijkstra](04_dijkstra.md) | Costs and relaxation | `tasks/dijkstra_graph.m` |
+| [05 Greedy](05_greedy.md) | Priority from heuristic | `tasks/greedy_graph.m` |
+| [06 A*](06_astar.md) | Priority from `g+h` | `tasks/astar_graph.m` |
+| [07 Comparison](07_comparison.md) | Your algorithms on random maps | `experiments/experiment_random_comparison.m` |
+| [08 Car in maze — next lab](08_car_in_maze.md) | Grid-path vehicle animation | `tasks/car_in_maze.m` |
+| [09 Vehicle outlook](09_crazycar_outlook.md) | Future motion and steering model | Conceptual |
 
-[Short guided route](CORE_ROUTE.md) · [Course/package overview](../README.md)
-
-A chapter is a guide, not an extra deliverable. You may consult all Markdown explanations, helper-function implementations and expandable solutions. You must be able to explain your completed algorithms and the car's path.
+**Assessment:** The instructor sets the learning objectives. The Markdown predictions, optional investigations and collapsed answers help prepare for explaining your implementation **orally**; they are not additional assignments to submit.

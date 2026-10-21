@@ -1,55 +1,49 @@
-# Mobile Robots — MATLAB Path Planning
+# Mobile Robots — Path Planning MATLAB course
 
-**FH JOANNEUM · Complete guided lab package (English lab instructions)**
+**FH JOANNEUM · guided code exercises and Markdown instructions**
 
-The files are deliberately separated into **learning material** and **runnable MATLAB code**.
+The folder is deliberately divided into **ANLEITUNGEN** (readable tasks and explanations) and **MATLAB** (runnable code). The provided toolbox is not part of the student implementation assignment.
 
 ```text
 MobileRobots_PathPlanning/
-│  README.md                  ← this overview
-├─ ANLEITUNGEN/
-│  ├─ README.md               ← index to the nine Markdown chapters
-│  ├─ CORE_ROUTE.md           ← guided list of explicitly labelled tasks
-│  ├─ 01_basics.md            ← inspect and experiment with supplied tools
-│  ├─ 02_depth_first.md       ← DFS
-│  ├─ 03_breadth_first.md     ← BFS
-│  ├─ 04_dijkstra.md          ← Dijkstra
-│  ├─ 05_greedy.md            ← Greedy Best-First
-│  ├─ 06_astar.md             ← A*
-│  ├─ 07_comparison.md        ← compare YOUR code in random maps
-│  ├─ 08_car_in_maze.md       ← car visualization through a labyrinth
-│  ├─ 09_crazycar_outlook.md  ← later vehicle-motion planning
-│  └─ figures/                ← images used by the Markdown documents
-└─ MATLAB/
-   ├─ README.md               ← how to run MATLAB files
-   ├─ setup_path.m
-   ├─ check_tools.m
-   ├─ tasks/                  ← student implementations, 6 files
-   ├─ demos/                  ← supplied function examples
-   ├─ experiments/            ← parameter and comparison experiments
-   ├─ tools/                  ← supplied helper functions
-   ├─ checks/                 ← automatic self-tests
-   ├─ toolchecks/             ← basic toolbox checks
-   └─ solutions/              ← instructor reference, teacher version only
+├── README.md
+├── ANLEITUNGEN/
+│   ├── CORE_ROUTE.md                  guided sequence and clearly labelled TASKs
+│   ├── 01_basics.md                   explanation of supplied functions
+│   ├── 02_depth_first.md ... 06_astar.md
+│   ├── 07_comparison.md              random-map evaluation
+│   ├── 08_car_in_maze.md              following laboratory, not this one
+│   ├── 09_crazycar_outlook.md         future vehicle-motion model
+│   └── figures/
+└── MATLAB/
+    ├── setup_path.m, check_tools.m
+    ├── tasks/                        five search algorithms (+ later car task)
+    ├── experiments/                  independent experiment_*.m scripts
+    ├── demos/                        supplied examples
+    ├── tools/                        supplied functions: do not edit
+    ├── checks/, toolchecks/
+    └── solutions/                    instructor version ONLY
 ```
 
 ## Start
 
-**TASK — Setup:** Open the MATLAB folder, run the provided tool checks, then implement the planning algorithms and car activity with the named task files.
+**TASK:** Set MATLAB's Current Folder to `MATLAB/`, then run:
 
-1. **TASK:** Read [the guided route](ANLEITUNGEN/CORE_ROUTE.md).
-2. **TASK:** In MATLAB set your **Current Folder** to `MATLAB/` (not the outer package folder).
-3. **TASK:** Run `setup_path` and `check_tools`.
-4. **TASK:** Follow the detailed [Markdown chapters](ANLEITUNGEN/README.md) if you need explanations, worked examples, or help with debugging.
+```matlab
+setup_path
+check_tools
+```
 
-## Final outcomes
+Open [CORE_ROUTE.md](ANLEITUNGEN/CORE_ROUTE.md), then [01_basics.md](ANLEITUNGEN/01_basics.md). Individual scripts are small and independent; their filenames start with `experiment_` rather than numbers.
 
-The instructor defines the exact assessment requirements. The intended final results are your own five MATLAB graph-search algorithms, the ability to explain their decision processes, and an animated car travelling through a maze along a path **computed by your own planner**. The Markdown tasks and small experiments are for learning; no separate reports or compulsory intermediate hand-ins are imposed by this package.
+## Intended learning sequence
 
-## What 'car in maze' currently means
+**Current laboratory:** Learn supplied functions, implement DFS, BFS, Dijkstra, Greedy and A*, compare your own code on several maps and be able to **explain your decisions and code orally**.
 
-The MATLAB code visualizes a small top-down car shape following discrete grid cells. It does **not** contain or claim to reproduce a CrazyCar simulator with steering angle, velocity dynamics, collision footprint or time-optimal driving. A verified simulator API would be needed for that later extension.
+**Following laboratory:** Apply planning to an animated vehicle in a maze. The included small MATLAB animation is **not** an actual CrazyCar dynamics simulator; steering angle and speed dynamics require the later vehicle model and simulator integration.
 
-## Reliability
+The instructor defines the precise assessment requirements. Experiment results, screenshots and Markdown explanations are learning aids, not separately specified submissions.
 
-The package was assembled from the previously supplied MATLAB course and guided Markdown instructions, plus a small grid-car demonstration. Files, internal links and ZIP integrity were checked. **MATLAB execution was not verified** in this environment; run the tests on your teaching computer before distributing the package.
+## Testing and validation
+
+The user has successfully run `check_tools` with **79 checks passed** on their MATLAB installation for the corrected toolbox. The newly structured experiment scripts have been checked for references and syntax structure, but have **not been executed in MATLAB** here. Run them on the lab machine before class.

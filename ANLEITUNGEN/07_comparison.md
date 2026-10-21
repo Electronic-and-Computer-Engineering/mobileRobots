@@ -185,7 +185,7 @@ Record exact values from **your own** run.
 
 ## Experiment 3 — A single seed is not evidence
 
-**TASK — Experiment 3:** Inspect `experiments/07_random_comparison.m`, run a small reproducible set of seeds, then compare multiple maps. Explain why one random result does not establish a general ranking.
+**TASK — Experiment 3:** Inspect `experiments/experiment_random_comparison.m`, run a small reproducible set of seeds, then compare multiple maps. Explain why one random result does not establish a general ranking.
 
 **Before executing the long loop:** Inspect the variables `densities`, `seeds` and `methods`. Predict how many planner runs the nested loops make, including the additional Dijkstra reference call per map. Change `seeds` temporarily to `1:2` to validate the output-table structure, then restore `1:8` for the actual experiment.
 
