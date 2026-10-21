@@ -1,46 +1,30 @@
-# MATLAB workspace
+# MATLAB files — quick start
 
-**TASK — MATLAB setup:** Set MATLAB Current Folder to this `MATLAB/` directory, run `setup_path` and `check_tools`, then edit only the files in `tasks/` as directed by the Markdown chapters.
-
-Open **this `MATLAB/` folder as your MATLAB Current Folder**. The documents are one level above, in `ANLEITUNGEN/`.
+**TASK:** In MATLAB set the Current Folder to **this `MATLAB/` folder**. Run:
 
 ```matlab
 setup_path
 check_tools
-which dfs_graph
 ```
 
-The last command must resolve to `tasks/dfs_graph.m`. The student functions are intentionally incomplete until you implement them.
+**TASK — First investigate OPEN:** Open `experiments/experiment_open_fifo_lifo.m`. Run the script, change `'fifo'` to `'lifo'`, and then continue to `experiment_open_return_values.m` and `experiment_open_priority.m`. All scripts are self-contained; there is no dependency on a previous MATLAB workspace.
 
-## Directory map
+**TASK — Continue with basics:** Open [01_basics.md](../ANLEITUNGEN/01_basics.md) and run the individual experiment scripts in the sequence given there. The `demos/` files provide additional working examples. Leave `tools/` unchanged.
 
-| Folder | Purpose |
-|---|---|
-| `tasks/` | **Your work**: DFS, BFS, Dijkstra, Greedy, A*, car-in-maze |
-| `tools/` | Provided neighbour functions, containers, heuristics, map generators, drawing, grid adapter and animation |
-| `demos/` | Small runnable examples showing provided tools |
-| `experiments/` | Editable parameter experiments and random-map comparison |
-| `checks/` | `check_my_code`, `check_student_grid`, `check_car_maze` |
-| `toolchecks/` | Unit checks for the supplied base toolbox |
-| `solutions/` | Instructor-only reference implementations (if included in your version) |
-
-## Recommended calls (in this order)
+**TASK — Develop five planners:** Complete the incomplete `tasks/*_graph.m` functions and test each with:
 
 ```matlab
-setup_path
-check_tools
-run('experiments/01_toolbox_experiments.m')
-check_my_code('dfs')        % after completing tasks/dfs_graph.m
-check_my_code('bfs')        % after completing tasks/bfs_graph.m
+check_my_code('dfs')
+check_my_code('bfs')
 check_my_code('dijkstra')
 check_my_code('greedy')
 check_my_code('astar')
-check_student_grid          % after all five algorithms are ready
-run('experiments/07_random_comparison.m')
-check_car_maze              % after completing tasks/car_in_maze.m
-run('experiments/08_car_experiment.m')
+check_student_grid
+run('experiments/experiment_random_comparison.m')
 ```
 
-`search_grid` is a separately implemented **reference** solver. Use `search_student_grid` to execute **your own** algorithms on occupancy grids.
+`check_tools` checks the provided functions; `check_my_code` tests each student implementation; `check_student_grid` checks the integration that calls **your** algorithms on occupancy grids. `search_grid` is an independent reference solver.
 
-The car animation does not model steering, speed, tire forces or vehicle footprint. It merely displays a car-shaped object following a computed grid route.
+**Following laboratory only:** `tasks/car_in_maze.m`, `check_car_maze`, and `experiments/experiment_car_maze.m`. The basic car symbol follows a calculated grid route; it is not a physical steering model.
+
+**Folder roles:** `tasks/` = edit; `experiments/` = inspect and change parameters; `demos/` = run and inspect; `tools/` = provided and unchanged; `checks/` = self-tests; `solutions/` = instructor reference only (not included with student package).

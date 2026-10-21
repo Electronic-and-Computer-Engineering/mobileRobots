@@ -1,49 +1,19 @@
-# Mobile Robots — Path Planning MATLAB course
+# Mobile Robots — MATLAB lab instructions
 
-**FH JOANNEUM · guided code exercises and Markdown instructions**
+**FH JOANNEUM**
 
-The folder is deliberately divided into **ANLEITUNGEN** (readable tasks and explanations) and **MATLAB** (runnable code). The provided toolbox is not part of the student implementation assignment.
+**TASK — Start here:** Open [CORE_ROUTE.md](ANLEITUNGEN/CORE_ROUTE.md) and follow the individually labelled **TASK** instructions. Every MATLAB experiment has its own descriptive `.m` file under `../MATLAB/experiments/`. Do not change the provided `tools/` functions.
 
-```text
-MobileRobots_PathPlanning/
-├── README.md
-├── ANLEITUNGEN/
-│   ├── CORE_ROUTE.md                  guided sequence and clearly labelled TASKs
-│   ├── 01_basics.md                   explanation of supplied functions
-│   ├── 02_depth_first.md ... 06_astar.md
-│   ├── 07_comparison.md              random-map evaluation
-│   ├── 08_car_in_maze.md              following laboratory, not this one
-│   ├── 09_crazycar_outlook.md         future vehicle-motion model
-│   └── figures/
-└── MATLAB/
-    ├── setup_path.m, check_tools.m
-    ├── tasks/                        five search algorithms (+ later car task)
-    ├── experiments/                  independent experiment_*.m scripts
-    ├── demos/                        supplied examples
-    ├── tools/                        supplied functions: do not edit
-    ├── checks/, toolchecks/
-    └── solutions/                    instructor version ONLY
-```
+| Chapter | What you learn or build | MATLAB starting point |
+|---|---|---|
+| [01 Toolbox](ANLEITUNGEN/01_basics.md) | OPEN, graph, grids, estimates and maps | `experiments/experiment_open_fifo_lifo.m` |
+| [02 DFS](ANLEITUNGEN/02_depth_first.md) | LIFO-based graph search | `tasks/dfs_graph.m` |
+| [03 BFS](ANLEITUNGEN/03_breadth_first.md) | FIFO-based graph search | `tasks/bfs_graph.m` |
+| [04 Dijkstra](ANLEITUNGEN/04_dijkstra.md) | Costs and relaxation | `tasks/dijkstra_graph.m` |
+| [05 Greedy](ANLEITUNGEN/05_greedy.md) | Priority from heuristic | `tasks/greedy_graph.m` |
+| [06 A*](ANLEITUNGEN/06_astar.md) | Priority from `g+h` | `tasks/astar_graph.m` |
+| [07 Comparison](ANLEITUNGEN/07_comparison.md) | Your algorithms on random maps | `experiments/experiment_random_comparison.m` |
+| [08 Car in maze — next lab](ANLEITUNGEN/08_car_in_maze.md) | Grid-path vehicle animation | `tasks/car_in_maze.m` |
+| [09 Vehicle outlook](ANLEITUNGEN/09_crazycar_outlook.md) | Future motion and steering model | Conceptual |
 
-## Start
-
-**TASK:** Set MATLAB's Current Folder to `MATLAB/`, then run:
-
-```matlab
-setup_path
-check_tools
-```
-
-Open [CORE_ROUTE.md](ANLEITUNGEN/CORE_ROUTE.md), then [01_basics.md](ANLEITUNGEN/01_basics.md). Individual scripts are small and independent; their filenames start with `experiment_` rather than numbers.
-
-## Intended learning sequence
-
-**Current laboratory:** Learn supplied functions, implement DFS, BFS, Dijkstra, Greedy and A*, compare your own code on several maps and be able to **explain your decisions and code orally**.
-
-**Following laboratory:** Apply planning to an animated vehicle in a maze. The included small MATLAB animation is **not** an actual CrazyCar dynamics simulator; steering angle and speed dynamics require the later vehicle model and simulator integration.
-
-The instructor defines the precise assessment requirements. Experiment results, screenshots and Markdown explanations are learning aids, not separately specified submissions.
-
-## Testing and validation
-
-The user has successfully run `check_tools` with **79 checks passed** on their MATLAB installation for the corrected toolbox. The newly structured experiment scripts have been checked for references and syntax structure, but have **not been executed in MATLAB** here. Run them on the lab machine before class.
+**Assessment:** The instructor sets the learning objectives. The Markdown predictions, optional investigations and collapsed answers help prepare for explaining your implementation **orally**; they are not additional assignments to submit.

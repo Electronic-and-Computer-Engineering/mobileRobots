@@ -1,4 +1,4 @@
-%% 07_random_comparison — guided experiment with YOUR planners
+%% EXPERIMENT_RANDOM_COMPARISON — guided experiment with YOUR planners
 % Mobile Robots / Path Planning · CORE route
 %
 % BEFORE RUNNING:

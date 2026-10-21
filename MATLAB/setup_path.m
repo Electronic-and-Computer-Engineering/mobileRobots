@@ -38,10 +38,6 @@ switch lower(mode)
         return
 
     case {'solution', 'solutions'}
-        if ~exist(fullfile(here, 'solutions'), 'dir')
-            error('setup_path:referenceUnavailable', ...
-                'Instructor reference functions are not distributed in the student package.');
-        end
         addpath(fullfile(here, 'tools'));
         addpath(fullfile(here, 'demos'));
         addpath(fullfile(here, 'toolchecks'));

@@ -1,4 +1,4 @@
-%% 08_car_experiment — my planner sends a car through a maze
+%% EXPERIMENT_CAR_MAZE — my planner sends a car through a maze
 % Before running:
 % 1. Finish car_in_maze.m in tasks/.
 % 2. Run check_my_code('astar') and check_car_maze.

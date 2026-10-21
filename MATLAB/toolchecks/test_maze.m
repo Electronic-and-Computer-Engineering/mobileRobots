@@ -39,14 +39,13 @@ end
 
 % =======================================================================
 function tf = local_all_reachable(M)
-    free = find(M == 0);
-
-    if isempty(free)
-        tf = false;
-        return
-    end
-
-    tf = nnz(local_flood(M, free(1))) == numel(free);
+%LOCAL_ALL_REACHABLE  Flood fill starting at the first free cell.
+free  = find(M == 0);
+if isempty(free)
+    tf = false;
+    return
+end
+tf = nnz(local_flood(M, free(1))) == numel(free);
 end
 
 
