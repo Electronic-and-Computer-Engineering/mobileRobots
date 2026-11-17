@@ -1,4 +1,4 @@
-[← 06 A*](06_astar.md) · **07 Comparison** · [08 Car in the maze →](08_car_in_maze.md)
+[← 06 A*](06_astar.md) · **07 Comparison** · [08 The vehicle in the search →](08_vehicle_neighbors.md)
 
 # 07 — Compare your algorithms on random maps
 
@@ -391,4 +391,4 @@ The subsequent vehicle task connects your own planner to an animated car in a la
 
 ---
 
-[Next: 08 — Car in the maze →](08_car_in_maze.md)
+[Next: 08 — Put the vehicle into the neighbour search →](08_vehicle_neighbors.md)

@@ -44,8 +44,16 @@ check_tools
 
 **TASK — [07 Comparison](07_comparison.md):** Run `check_my_code`, `check_student_grid`, and `experiments/experiment_random_comparison.m`. Keep the map and start/goal identical for all methods. Explain differences in path costs and expansions. The adapter `search_student_grid` uses your algorithms, not the independent reference planner.
 
-## Next laboratory — Vehicle movement
+## Part D — The vehicle laboratory
 
-The vehicle is **not** part of the current five-algorithm laboratory. The existing material remains available separately for the following laboratory: [08 Car in the maze](08_car_in_maze.md), `tasks/car_in_maze.m` and `experiments/experiment_car_maze.m`. This is a simple grid-path animation, **not** a physics-based CrazyCar simulator. The later motion-planning context is in [09 Vehicle outlook](09_crazycar_outlook.md).
+The vehicle is **not** part of the five-algorithm laboratory above. It is the next lab block, and it uses the algorithms you have just written: nothing in `tasks/dfs_graph.m` to `tasks/astar_graph.m` changes. What changes is the one function all five of them call to ask where they may go next.
+
+**TASK — [08 The vehicle in the search](08_vehicle_neighbors.md):** Meet the vehicle and the kinematic bicycle model. Derive the turning per metre driven, \(d\theta/ds = \cos\beta\tan\delta/L\), and see why the speed cancels out of it. Then complete **`tasks/car_primitives.m`** — the car's five moves, computed from the model — and **`tasks/car_neighbors.m`**, which places those moves at the car's actual pose and tests the whole swept rectangle against the walls. Check with `check_car_primitives` and `check_car_neighbors`. Read [VEHICLE_MODEL_REVIEW.md](VEHICLE_MODEL_REVIEW.md) afterwards. You do not write the simulator, the controller, the search or the collision test; those are given.
+
+**TASK — [09 Practice circuit](09_practice_circuit.md):** Run `experiments/experiment_oval_lap.m` and follow the route through the chain: search → resample → speed profile → controller → lap time. Take the speed profile away once and watch the car crash on a route that did not change. Then sweep `P.safety` and face the trade-off: a route that keeps away from the walls is safe and slow, a route that cuts close is quick and might not survive. Choose a value and defend it in three sentences.
+
+**TASK — [10 The CrazyCar track](10_crazycar_track.md):** The original track. Plan and drive a lap, find why one leg costs more than half the search, and measure how narrow the usable margin window is here compared with the oval. Then the final exercise: `experiments/experiment_cc_tuning.m`, where you tune eight values yourself against three numbers that will not all improve at once — lap time, the smallest gap to a wall, and how much grip the setup can lose before the lap fails. Meet one of the two targets on both tracks and write down what you bought and what you paid.
+
+*Optional:* `tasks/astar_car.m` is the pose search itself — your `astar_graph` with four lines changed. `check_car_plan` tests it.
 
 **No additional written reports are specified by these Markdown chapters.** Be prepared to explain the algorithms and your code orally as required by the instructor.

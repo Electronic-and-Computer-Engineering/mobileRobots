@@ -42,8 +42,16 @@ switch lower(mode)
         addpath(fullfile(here, 'demos'));
         addpath(fullfile(here, 'toolchecks'));
         addpath(fullfile(here, 'checks'));
-        addpath(fullfile(here, 'solutions'));    % model solution first
-        fprintf('\n  Model solutions are active.\n');
+        if exist(fullfile(here, 'solutions'), 'dir')
+            addpath(fullfile(here, 'solutions'));    % model solution first
+            fprintf('\n  Model solutions are active.\n');
+        else
+            % The student package ships without solutions/. Say so
+            % plainly instead of leaving a bare addpath warning.
+            addpath(fullfile(here, 'tasks'));
+            fprintf('\n  There is no solutions/ folder in this copy of the\n');
+            fprintf('  course, so your own files from tasks/ are active.\n');
+        end
 
     otherwise
         addpath(fullfile(here, 'tools'));

@@ -18,7 +18,7 @@ TOOLCHECK_COUNT = [0 0];
 
 fprintf('\n=== Checking the tools ===\n\n');
 
-tests = {@test_open, @test_graph, @test_path, @test_grid, @test_maze};
+tests = {@test_open, @test_graph, @test_path, @test_grid, @test_maze, @test_car};
 for k = 1:numel(tests)
     try
         tests{k}();
