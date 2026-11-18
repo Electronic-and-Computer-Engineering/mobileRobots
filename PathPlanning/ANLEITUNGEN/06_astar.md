@@ -11,9 +11,9 @@
 
 Dijkstra uses `g(v)`, the best cost known from the start. Greedy uses `h(v)`, an estimate to the goal. A* combines both:
 
-\[
+$$
 f(v)=g(v)+h(v).
-\]
+$$
 
 Implement A* using your Dijkstra search as the starting point, then test when and why the method is optimal.
 
@@ -131,7 +131,7 @@ Yes. A* chooses nodes using `f(v)=g(v)+h(v)`. Setting **`h(v)=0` for every node*
 
 **TASK — Step 4:** Deliberately test an unsuitable heuristic on the small graph. Observe whether A* still finds the minimum-cost path and explain the role of admissibility and consistency.
 
-An admissible heuristic satisfies \(h(v)\le h^*(v)\), where \(h^*(v)\) is the true minimum remaining cost. On our grid with the usual Manhattan or Octile estimates, the heuristics are also **consistent**, which is important for our particular A* implementation: nodes are closed permanently and not reopened.
+An admissible heuristic satisfies $h(v)\le h^*(v)$, where $h^*(v)$ is the true minimum remaining cost. On our grid with the usual Manhattan or Octile estimates, the heuristics are also **consistent**, which is important for our particular A* implementation: nodes are closed permanently and not reopened.
 
 Test this deliberately excessive estimate:
 

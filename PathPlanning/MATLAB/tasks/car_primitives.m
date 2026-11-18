@@ -74,6 +74,17 @@ function prim = car_primitives(P)
 %   DEMO_MY_MOTION_SPACE draws them, which is usually faster than
 %   reading a table of numbers.
 %
+%   IF IT DOES NOT COME OUT, CHECK ONE ITERATION
+%   At full lock (delta = 22 deg) the values after the FIRST pass of
+%   the loop are:
+%
+%       beta  = 0.19933      dthdS = 3.3002      ds = 0.02975
+%       thMid = 0.04909      th    = 0.09818
+%       x     = 0.02884      y     = 0.00731
+%
+%   beta and dthdS right but the first pass wrong -> TODO 3 alone.
+%   th right but x and y wrong -> the "+ beta" is missing.
+%
 %   Store each of the nSub poses in pts -- CAR_NEIGHBORS tests all four
 %   of them against the walls, not just the end of the arc.
 %

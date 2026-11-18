@@ -31,11 +31,11 @@ Return briefly to `demos/demo_container.m`: try inserting the same node twice wi
 
 **TASK — Step 1:** Initialize the `g` values for the example graph, inspect the start cost and unknown costs, and explain why unknown routes are represented by `Inf`.
 
-Let \(g(v)\) be the cost of the best route from start `s` to node `v` currently known to the algorithm. Initially:
+Let $g(v)$ be the cost of the best route from start `s` to node `v` currently known to the algorithm. Initially:
 
-\[
+$$
 g(s)=0,\qquad g(v)=\infty\quad\text{for }v\ne s.
-\]
+$$
 
 Do this in MATLAB:
 
@@ -66,9 +66,9 @@ For E, **B** should be the remembered predecessor because the route through B co
 
 Relaxation compares an already known route to `v` with a candidate route through `u`:
 
-\[
+$$
 g_{\mathrm{candidate}}=g(u)+w(u,v).
-\]
+$$
 
 Only if the candidate is cheaper do we update the best-known cost and predecessor.
 

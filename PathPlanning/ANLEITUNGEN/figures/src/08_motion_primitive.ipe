@@ -1,0 +1,141 @@
+<?xml version="1.0"?>
+<!DOCTYPE ipe SYSTEM "ipe.dtd">
+<ipe version="70218" creator="Mobile Robots lab">
+<info created="D:20261118000000" modified="D:20261118000000"/>
+<preamble>\usepackage{amsmath}</preamble>
+<ipestyle name="mrblab">
+<symbol name="arrow/normal(spx)">
+<path stroke="sym-stroke" fill="sym-stroke" pen="sym-pen">
+0 0 m
+-1 0.333 l
+-1 -0.333 l
+h
+</path>
+</symbol>
+<arrowsize name="normal" value="7"/>
+<textsize name="normal" value="\normalsize"/>
+<textsize name="small" value="\footnotesize"/>
+<textsize name="large" value="\large"/>
+<pen name="normal" value="0.8"/>
+<color name="black" value="0"/>
+<color name="white" value="1"/>
+<layout paper="580 430" origin="0 0" frame="580 430" crop="yes"/>
+</ipestyle>
+<page title="One motion primitive">
+<layer name="alpha"/>
+<view layers="alpha" active="alpha"/>
+<path stroke="0" fill="0.93" pen="1">
+116 137.75 m
+314 137.75 l
+314 232.25 l
+116 232.25 l
+h
+</path>
+<path stroke="0" pen="0.8">
+371.975 161.764 m
+511.982 301.771 l
+445.161 368.593 l
+305.154 228.586 l
+h
+</path>
+<path stroke="0.13 0.38 0.75" pen="1.6" arrow="normal/7">
+215 185 m
+273.747 0 0 273.747 215 458.747 408.568 265.178 a
+</path>
+<path fill="0.13 0.38 0.75">
+2.6 0 0 2.6 215 185 e
+</path>
+<path fill="0.13 0.38 0.75">
+2.6 0 0 2.6 268.405 190.26 e
+</path>
+<path fill="0.13 0.38 0.75">
+2.6 0 0 2.6 319.758 205.838 e
+</path>
+<path fill="0.13 0.38 0.75">
+2.6 0 0 2.6 367.085 231.135 e
+</path>
+<path fill="0.13 0.38 0.75">
+2.6 0 0 2.6 408.568 265.178 e
+</path>
+<text pos="339.604 170.804" stroke="0.13 0.38 0.75" type="label" halign="center" valign="center" size="normal">$s$</text>
+<path stroke="0.45" pen="0.6" dash="[3 2] 0">
+215 185 m
+390 185 l
+</path>
+<path stroke="0.45" pen="0.6" dash="[3 2] 0">
+408.568 265.178 m
+489.885 346.496 l
+</path>
+<path stroke="0.45" pen="0.6" dash="[3 2] 0">
+408.568 265.178 m
+508.568 265.178 l
+</path>
+<path stroke="0.18 0.49 0.56" pen="0.9" arrow="normal/5">
+486.568 265.178 m
+78 0 0 78 408.568 265.178 463.722 320.333 a
+</path>
+<text pos="494.489 300.768" stroke="0.18 0.49 0.56" type="label" halign="left" valign="center" size="normal">$\Delta\theta$</text>
+<path fill="0">
+3.6 0 0 3.6 215 185 e
+</path>
+<path fill="0">
+3.6 0 0 3.6 408.568 265.178 e
+</path>
+<path stroke="0.75" pen="0.4" dash="[1 2] 0">
+215 173 m
+215 92 l
+</path>
+<path stroke="0.75" pen="0.4" dash="[1 2] 0">
+408.568 253.178 m
+408.568 92 l
+</path>
+<path stroke="0.75" pen="0.4" dash="[1 2] 0">
+420.568 265.178 m
+536 265.178 l
+</path>
+<path stroke="0.75" pen="0.4" dash="[1 2] 0">
+227 185 m
+536 185 l
+</path>
+<path stroke="0.45" pen="0.4">
+215 100 m
+215 94 l
+</path>
+<path stroke="0.45" pen="0.4">
+408.568 100 m
+408.568 94 l
+</path>
+<path stroke="0.45" pen="0.7" arrow="normal/5" rarrow="normal/5">
+215 100 m
+408.568 100 l
+</path>
+<text pos="311.784 85" stroke="0" type="label" halign="center" valign="center" size="normal">$\Delta x$</text>
+<path stroke="0.45" pen="0.4">
+528 185 m
+534 185 l
+</path>
+<path stroke="0.45" pen="0.4">
+528 265.178 m
+534 265.178 l
+</path>
+<path stroke="0.45" pen="0.7" arrow="normal/5" rarrow="normal/5">
+528 185 m
+528 265.178 l
+</path>
+<text pos="545 225.089" stroke="0" type="label" halign="center" valign="center" size="normal">$\Delta y$</text>
+<path stroke="0" pen="0.9" arrow="normal/6">
+62 112 m
+118 112 l
+</path>
+<path stroke="0" pen="0.9" arrow="normal/6">
+62 112 m
+62 168 l
+</path>
+<text pos="124 110" stroke="0" type="label" halign="left" valign="center" size="normal">$x$</text>
+<text pos="58 174" stroke="0" type="label" halign="right" valign="center" size="normal">$y$</text>
+<text pos="56 94" stroke="0.45" type="label" halign="left" valign="baseline" size="small">the car's own frame</text>
+<text pos="62 66" stroke="0" type="label" halign="left" valign="baseline" size="small">$s = 0.119$ m \quad every primitive is an arc of this length, walked in $n = 4$ steps of $\Delta s = s/n$</text>
+<text pos="62 49" stroke="0" type="label" halign="left" valign="baseline" size="small">$\Delta x, \Delta y, \Delta\theta$ \quad what one steering level moves the car, in the car's own frame</text>
+<text pos="62 32" stroke="0" type="label" halign="left" valign="baseline" size="small">at a pose $(x,y,\theta)$: rotate $(\Delta x, \Delta y)$ by $\theta$, add $(x,y)$, and add $\Delta\theta$ to $\theta$</text>
+</page>
+</ipe>

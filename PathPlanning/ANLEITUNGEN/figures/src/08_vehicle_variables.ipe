@@ -1,0 +1,172 @@
+<?xml version="1.0"?>
+<!DOCTYPE ipe SYSTEM "ipe.dtd">
+<ipe version="70218" creator="Mobile Robots lab">
+<info created="D:20261118000000" modified="D:20261118000000"/>
+<preamble>\usepackage{amsmath}</preamble>
+<ipestyle name="mrblab">
+<symbol name="arrow/normal(spx)">
+<path stroke="sym-stroke" fill="sym-stroke" pen="sym-pen">
+0 0 m
+-1 0.333 l
+-1 -0.333 l
+h
+</path>
+</symbol>
+<arrowsize name="normal" value="7"/>
+<textsize name="normal" value="\normalsize"/>
+<textsize name="small" value="\footnotesize"/>
+<textsize name="large" value="\large"/>
+<pen name="normal" value="0.8"/>
+<color name="black" value="0"/>
+<color name="white" value="1"/>
+<layout paper="580 430" origin="0 0" frame="580 430" crop="yes"/>
+</ipestyle>
+<page title="The vehicle and its variables">
+<layer name="alpha"/>
+<view layers="alpha" active="alpha"/>
+<path stroke="0" fill="0.88" pen="1.1">
+178.131 171.74 m
+364.19 239.46 l
+331.869 328.26 l
+145.81 260.54 l
+h
+</path>
+<path stroke="0.45" pen="0.6" dash="[3 2] 0">
+145.056 209.984 m
+470.659 328.494 l
+</path>
+<path stroke="0" fill="0.25" pen="0.8">
+187.383 218.685 m
+225.44 232.537 l
+221.131 244.377 l
+183.073 230.525 l
+h
+</path>
+<path stroke="0" fill="0.25" pen="0.8">
+297.553 248.907 m
+323.586 279.932 l
+313.934 288.031 l
+287.901 257.006 l
+h
+</path>
+<path stroke="0.75 0.12 0.18" pen="0.9" dash="[3 2] 0">
+305.743 268.469 m
+375.164 351.202 l
+</path>
+<path stroke="0.75 0.12 0.18" pen="0.8" arrow="normal/5">
+364.004 289.674 m
+62 0 0 62 305.743 268.469 345.596 315.964 a
+</path>
+<text pos="367.18 311.487" stroke="0.75 0.12 0.18" type="label" halign="center" valign="center" size="normal">$\delta$</text>
+<path stroke="0.45" pen="0.6" dash="[3 2] 0">
+225 250 m
+470 250 l
+</path>
+<path stroke="0" pen="0.8" arrow="normal/5">
+405 250 m
+150 0 0 150 255 250 395.954 301.303 a
+</path>
+<text pos="415.524 278.305" stroke="0" type="label" halign="center" valign="center" size="normal">$\theta$</text>
+<path stroke="0.13 0.38 0.75" pen="1.3" arrow="normal/7">
+255 250 m
+420.633 370.791 l
+</path>
+<text pos="431.137 378.451" stroke="0.13 0.38 0.75" type="label" halign="left" valign="center" size="normal">$v$</text>
+<path stroke="0.13 0.38 0.75" pen="0.8" arrow="normal/5">
+428.843 313.274 m
+185 0 0 185 255 250 404.474 359.007 a
+</path>
+<text pos="428.963 346.632" stroke="0.13 0.38 0.75" type="label" halign="left" valign="center" size="normal">$\beta$</text>
+<path fill="0">
+3.6 0 0 3.6 255 250 e
+</path>
+<text pos="246 261" stroke="0" type="label" halign="right" valign="bottom" size="normal">$(x,y)$</text>
+<path stroke="0.45" pen="0.4">
+222.042 182.667 m
+244.615 120.647 l
+</path>
+<path stroke="0.45" pen="0.4">
+323.528 219.605 m
+346.102 157.585 l
+</path>
+<path stroke="0.45" pen="0.7" arrow="normal/5" rarrow="normal/5">
+242.563 126.285 m
+344.05 163.224 l
+</path>
+<text pos="297.068 134.418" stroke="0" type="label" halign="center" valign="center" size="normal">$L$</text>
+<path stroke="0.45" pen="0.4">
+222.042 182.667 m
+229.566 161.994 l
+</path>
+<path stroke="0.45" pen="0.4">
+272.785 201.136 m
+280.309 180.463 l
+</path>
+<path stroke="0.45" pen="0.7" arrow="normal/5" rarrow="normal/5">
+227.514 167.632 m
+278.257 186.101 l
+</path>
+<text pos="256.648 166.53" stroke="0" type="label" halign="center" valign="center" size="normal">$l_r$</text>
+<path stroke="0.45" pen="0.4">
+272.785 201.136 m
+280.309 180.463 l
+</path>
+<path stroke="0.45" pen="0.4">
+323.528 219.605 m
+331.053 198.932 l
+</path>
+<path stroke="0.45" pen="0.7" arrow="normal/5" rarrow="normal/5">
+278.257 186.101 m
+329.001 204.57 l
+</path>
+<text pos="307.391 184.999" stroke="0" type="label" halign="center" valign="center" size="normal">$l_f$</text>
+<path stroke="0.45" pen="0.4">
+143.758 266.179 m
+132.129 298.128 l
+</path>
+<path stroke="0.45" pen="0.4">
+329.817 333.899 m
+318.188 365.848 l
+</path>
+<path stroke="0.45" pen="0.7" arrow="normal/5" rarrow="normal/5">
+134.181 292.49 m
+320.24 360.21 l
+</path>
+<text pos="223.449 336.687" stroke="0" type="label" halign="center" valign="center" size="normal">$\mathrm{bodyL}$</text>
+<path stroke="0.45" pen="0.4">
+172.493 169.687 m
+133.026 155.323 l
+</path>
+<path stroke="0.45" pen="0.4">
+140.172 258.488 m
+100.705 244.124 l
+</path>
+<path stroke="0.45" pen="0.7" arrow="normal/5" rarrow="normal/5">
+138.664 157.375 m
+106.343 246.176 l
+</path>
+<text pos="112.167 198.013" stroke="0" type="label" halign="center" valign="center" size="normal">$\mathrm{bodyW}$</text>
+<path fill="0.45">
+2.4 0 0 2.4 204.257 231.531 e
+</path>
+<path fill="0.45">
+2.4 0 0 2.4 305.743 268.469 e
+</path>
+<path stroke="0" pen="0.9" arrow="normal/6">
+438 118 m
+500 118 l
+</path>
+<path stroke="0" pen="0.9" arrow="normal/6">
+438 118 m
+438 180 l
+</path>
+<text pos="506 116" stroke="0" type="label" halign="left" valign="center" size="normal">$x$</text>
+<text pos="434 186" stroke="0" type="label" halign="right" valign="center" size="normal">$y$</text>
+<text pos="432 192" stroke="0.45" type="label" halign="left" valign="baseline" size="small">world frame</text>
+<text pos="72 92" stroke="0" type="label" halign="left" valign="baseline" size="small">$(x,y)$, $\theta$ \quad the pose: the middle of the body, and where it points</text>
+<text pos="72 75" stroke="0" type="label" halign="left" valign="baseline" size="small">$\delta$ \quad steering angle of the front wheel, $|\delta| \le 22^\circ$ \quad ($\delta = \delta_{\max} u / 100$)</text>
+<text pos="72 58" stroke="0" type="label" halign="left" valign="baseline" size="small">$\beta$ \quad side slip angle, $\beta = \arctan\!\left(\frac{l_r}{L}\tan\delta\right)$ \quad the car travels along $\theta + \beta$, not along $\theta$</text>
+<text pos="72 41" stroke="0" type="label" halign="left" valign="baseline" size="small">$L = 0.12$ m \quad wheelbase, with $l_r = l_f = 0.06$ m</text>
+<text pos="72 24" stroke="0" type="label" halign="left" valign="baseline" size="small">$\mathrm{bodyL} = 0.22$ m, $\mathrm{bodyW} = 0.105$ m \quad what has to fit between the walls</text>
+</page>
+</ipe>

@@ -12,7 +12,20 @@ function ok = check_car_neighbors()
 
 P  = cc_params('Track', 'oval');
 T  = cc_track(P);
-CM = cc_car_model(T, P);
+
+try
+    CM = cc_car_model(T, P);
+catch err
+    if any(strcmp(err.identifier, {'task:todo', 'cc_car_model:noPrimitives'}))
+        fprintf('\n  tasks/car_primitives.m is still the skeleton, and the\n');
+        fprintf('  neighbours are built out of those five moves -- so there is\n');
+        fprintf('  nothing to test yet. Do step 5 of chapter 08 first, then\n');
+        fprintf('  come back here.\n\n');
+        ok = false;
+        return
+    end
+    rethrow(err)
+end
 
 % Eight poses, each chosen to catch a different mistake. Cases 2 to 5
 % and 7 fail if the primitive is not rotated; case 6 fails if only the

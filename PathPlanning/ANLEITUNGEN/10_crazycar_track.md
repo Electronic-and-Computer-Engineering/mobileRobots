@@ -74,11 +74,11 @@ The straight line from CP2 to CP3 is 1.94 m long and runs **through the wall** t
   6       3.183       3.650    1.15       184
 ```
 
-Five legs have a line of sight to their goal and the estimate is within 23 %. Leg 3 is out by a factor of **2.89**, and it is too low *everywhere in that region*. A\* takes the node with the smallest `g+h`; when `h` is uniformly too low across an area, every node in it looks cheap, so the search spreads out over the area instead of crossing it. It degenerates towards Dijkstra exactly where it can least afford to.
+Five legs have a line of sight to their goal and the estimate is within 23 %. Leg 3 is out by a factor of **2.89**, and it is too low *everywhere in that region*. A\* takes the node with the smallest $g+h$; when $h$ is uniformly too low across an area, every node in it looks cheap, so the search spreads out over the area instead of crossing it. It degenerates towards Dijkstra exactly where it can least afford to.
 
 The estimate is still **admissible** — it never overestimates — so the route A\* returns is still the cheapest it can find. Only the work is wasted. That is the distinction from chapter 06: admissibility buys you correctness, not speed.
 
-**Optional:** flood the 5 cm planning grid outwards from each goal once with your own `dijkstra_graph` and use the result as a lookup table for `h`. It is still admissible, it knows about walls, and on leg 3 it would report about 5.5 m instead of 1.97.
+**Optional:** flood the 5 cm planning grid outwards from each goal once with your own `dijkstra_graph` and use the result as a lookup table for $h$. It is still admissible, it knows about walls, and on leg 3 it would report about 5.5 m instead of 1.97.
 
 </details>
 
@@ -110,13 +110,13 @@ On the oval, every margin from 0.02 to 0.12 m produced a lap. Here it does not.
 
 So 0.05 m is a **measurement of this track**, not a property of the car. On another track the cliff is somewhere else, and you would find it the same way: by crashing.
 
-**The ceiling.** The narrowest corridor is 0.59 m — measure it yourself as the smallest free run along any row of `T.Mfine`. A margin of `s` on both sides leaves `0.59 - 2s`, and the car needs more than its 0.105 m width, because turning, its corners reach out to
+**The ceiling.** The narrowest corridor is 0.59 m — measure it yourself as the smallest free run along any row of `T.Mfine`. A margin of $s$ on both sides leaves $0.59 - 2s$, and the car needs more than its 0.105 m width: skewed by $\psi$ against that corridor wall, its body reaches out to
 
-```
-d(psi) = (bodyL/2) * sin(psi) + (bodyW/2) * cos(psi)
-```
+$$
+d(\psi) \;=\; \frac{\mathrm{bodyL}}{2}\,\sin\psi \;+\; \frac{\mathrm{bodyW}}{2}\,\cos\psi
+$$
 
-up to 0.122 m at `psi = 64.5°`. At `s = 0.10` the grown walls close the right-hand turnaround of leg 1 and there is no pose sequence left. Not a bug — an honest answer to an impossible question.
+up to 0.122 m at $\psi = 64.5^\circ$. At $s = 0.10$ the grown walls close the right-hand turnaround of leg 1 and there is no pose sequence left. Not a bug — an honest answer to an impossible question.
 
 Compare with the oval, where 0.12 m was still comfortable. Same code, same car; the track decides.
 
@@ -157,7 +157,7 @@ By lap time it is 1.5 s better. By clearance it is barely worse, and it never to
 vRef(turning) = min(o.VMax, sqrt(o.AyMax ./ kappa(turning)));
 ```
 
-With `AyMax` set to 1.7·`P.ayMax` the profile permits corner speeds `sqrt(1.7) = 1.30` times higher than the tyres can hold. It is not planning a faster lap; it is planning a lap **for a car with 70 % more grip than this one**. The simulator reports it spending 30 of 306 steps at the grip limit, against 2 for the defaults.
+With `AyMax` set to 1.7·`P.ayMax` the profile permits corner speeds $\sqrt{1.7} = 1.30$ times higher than the tyres can hold. It is not planning a faster lap; it is planning a lap **for a car with 70 % more grip than this one**. The simulator reports it spending 30 of 306 steps at the grip limit, against 2 for the defaults.
 
 When the grip drops, the car cannot generate the lateral acceleration its own plan demands, so it does not follow the arc. It **understeers**: it keeps going straighter than the steering asked for, drifts to the outside of the bend, and the outside of a bend is a wall.
 
@@ -234,11 +234,11 @@ end
 <details>
 <summary>Show solution (after your own attempt)</summary>
 
-The lookahead is `Ld = Ld0 + kLd v`, capped at `LdMax`. The fastest the car goes on this lap is 2.02 m/s, so the largest value the formula ever produces is
+The lookahead is $L_d = L_{d0} + k_{Ld}\,v$, capped at `LdMax`. The fastest the car goes on this lap is 2.02 m/s, so the largest value the formula ever produces is
 
-```
-0.16 + 0.08 * 2.02 = 0.32 m
-```
+$$
+0.16 + 0.08 \cdot 2.02 = 0.32\ \text{m}
+$$
 
 which never reaches the 0.35 m cap. Raise the cap and nothing changes, because nothing was touching it. Lower it to 0.22 and it starts binding on the straights, which is why that is the only row that moves.
 
@@ -251,7 +251,7 @@ A knob that does nothing is not harmless. It is a knob you will reach for when s
 <details>
 <summary>Show solution (after your own attempt)</summary>
 
-**Short lookahead: much space, no grip reserve.** The steering law is `delta = atan( 2*L*sin(alpha) / Ld )`. `Ld` is in the denominator, so for the *same* deviation from the line a shorter lookahead commands a **larger steering angle**. The car tracks the planned line tightly — and that line is where the planner put it, 50 mm from the walls — but it does so by cornering harder than the lap requires: seven steps at the grip limit instead of one. Take 15 % of the grip away and it can no longer produce the lateral acceleration its own corrections demand, and it runs wide.
+**Short lookahead: much space, no grip reserve.** The steering law is $\delta = \arctan\!\left(\frac{2L\sin\alpha}{L_d}\right)$. $L_d$ is in the denominator, so for the *same* deviation from the line a shorter lookahead commands a **larger steering angle**. The car tracks the planned line tightly — and that line is where the planner put it, 50 mm from the walls — but it does so by cornering harder than the lap requires: seven steps at the grip limit instead of one. Take 15 % of the grip away and it can no longer produce the lateral acceleration its own corrections demand, and it runs wide.
 
 **Long lookahead: no space, grip to spare.** The car aims past the bend, so it leaves the planned line towards the inside: it **cuts the corner**. Cutting is why it is quicker, and the 8 mm it gained came straight out of the planner's margin. But a cut corner has a *larger* radius than the planned one, so it asks the tyres for less — one step at the limit instead of seven.
 
@@ -286,6 +286,14 @@ reserve    <= 70 %
 ```
 
 Each has room to spare, so there is more than one answer. Neither is reachable by turning a single knob: every setting that gets close on one number fails another.
+
+**Before you start sweeping, one practical thing.** Every `cc_scorecard` call runs the lap once and then up to eight more times to find the grip reserve. While you are hunting for a lap time you do not need the reserve:
+
+```matlab
+S = cc_scorecard(cfg, 'Reserve', false);     % about eight times faster
+```
+
+Sweep with that, and only measure the reserve on the two or three settings you are actually considering. The same goes for the oval check — leave it to the end.
 
 One hint, because it is the hint that teaches something: **one of the eight values buys a great deal of clearance for almost no time**, and makes the search cheaper as well. Step 2 is about it. Set that one first, then spend what it gave you on the other seven, which all charge for what they give.
 

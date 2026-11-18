@@ -1,0 +1,220 @@
+<?xml version="1.0"?>
+<!DOCTYPE ipe SYSTEM "ipe.dtd">
+<ipe version="70218" creator="Mobile Robots lab">
+<info created="D:20261118000000" modified="D:20261118000000"/>
+<preamble>\usepackage{amsmath}</preamble>
+<ipestyle name="mrblab">
+<symbol name="arrow/normal(spx)">
+<path stroke="sym-stroke" fill="sym-stroke" pen="sym-pen">
+0 0 m
+-1 0.333 l
+-1 -0.333 l
+h
+</path>
+</symbol>
+<arrowsize name="normal" value="7"/>
+<textsize name="normal" value="\normalsize"/>
+<textsize name="small" value="\footnotesize"/>
+<textsize name="large" value="\large"/>
+<pen name="normal" value="0.8"/>
+<color name="black" value="0"/>
+<color name="white" value="1"/>
+<layout paper="580 430" origin="0 0" frame="580 430" crop="yes"/>
+</ipestyle>
+<page title="Why a bicycle model">
+<layer name="alpha"/>
+<view layers="alpha" active="alpha"/>
+<path stroke="0" fill="0.88" pen="1.1">
+93.5 180.875 m
+236.5 180.875 l
+236.5 249.125 l
+93.5 249.125 l
+h
+</path>
+<path stroke="0" pen="1.6">
+126 177.95 m
+126 252.05 l
+</path>
+<path stroke="0" fill="0.25" pen="0.8">
+111.05 239.05 m
+140.95 239.05 l
+140.95 249.45 l
+111.05 249.45 l
+h
+</path>
+<path stroke="0" fill="0.25" pen="0.8">
+111.05 180.55 m
+140.95 180.55 l
+140.95 190.95 l
+111.05 190.95 l
+h
+</path>
+<path stroke="0" fill="0.25" pen="0.8">
+195.705 230.769 m
+218.87 249.674 l
+212.295 257.731 l
+189.13 238.826 l
+h
+</path>
+<path stroke="0" fill="0.25" pen="0.8">
+193.01 174.358 m
+219.687 187.863 l
+214.99 197.142 l
+188.313 183.637 l
+h
+</path>
+<path stroke="0.45" pen="0.5" dash="[2 2] 0">
+204 244.25 m
+126 339.826 l
+</path>
+<path stroke="0.75 0.12 0.18" pen="0.8" dash="[3 2] 0">
+204 244.25 m
+173.177 282.019 l
+</path>
+<path stroke="0.45" pen="0.5" dash="[2 2] 0">
+204 185.75 m
+126 339.826 l
+</path>
+<path stroke="0.75 0.12 0.18" pen="0.8" dash="[3 2] 0">
+204 185.75 m
+181.981 229.244 l
+</path>
+<path stroke="0.45" pen="0.5" dash="[2 2] 0">
+126 244.25 m
+126 339.826 l
+</path>
+<text pos="237.8 262.45" stroke="0.75 0.12 0.18" type="label" halign="left" valign="center" size="normal">$\delta_i$</text>
+<text pos="244.3 188.35" stroke="0.75 0.12 0.18" type="label" halign="left" valign="center" size="normal">$\delta_o$</text>
+<path stroke="0.45" pen="0.4">
+116 185.75 m
+68 185.75 l
+</path>
+<path stroke="0.45" pen="0.4">
+116 244.25 m
+68 244.25 l
+</path>
+<path stroke="0.45" pen="0.7" arrow="normal/5" rarrow="normal/5">
+74 185.75 m
+74 244.25 l
+</path>
+<text pos="60 215" stroke="0" type="label" halign="center" valign="center" size="normal">$w$</text>
+<path stroke="0.45" pen="0.4">
+126 173 m
+126 147 l
+</path>
+<path stroke="0.45" pen="0.4">
+204 173 m
+204 147 l
+</path>
+<path stroke="0.45" pen="0.7" arrow="normal/5" rarrow="normal/5">
+126 153 m
+204 153 l
+</path>
+<text pos="165 142" stroke="0" type="label" halign="center" valign="center" size="normal">$L$</text>
+<path fill="0.45">
+2.4 0 0 2.4 126 215 e
+</path>
+<path fill="0.45">
+2.4 0 0 2.4 204 215 e
+</path>
+<path stroke="0.18 0.49 0.56" pen="1.2">
+119 339.826 m
+133 339.826 l
+</path>
+<path stroke="0.18 0.49 0.56" pen="1.2">
+126 332.826 m
+126 346.826 l
+</path>
+<text pos="137 341.826" stroke="0.18 0.49 0.56" type="label" halign="left" valign="center" size="small">ICR</text>
+<text pos="165 411" stroke="0" type="label" halign="center" valign="baseline" size="large">what the car is</text>
+<path stroke="0" fill="0.88" pen="1.1">
+348.5 180.875 m
+491.5 180.875 l
+491.5 249.125 l
+348.5 249.125 l
+h
+</path>
+<path stroke="0" fill="0.25" pen="0.8">
+366.05 209.8 m
+395.95 209.8 l
+395.95 220.2 l
+366.05 220.2 l
+h
+</path>
+<path stroke="0" fill="0.25" pen="0.8">
+449.077 202.668 m
+474.434 218.512 l
+468.923 227.332 l
+443.566 211.488 l
+h
+</path>
+<path stroke="0.45" pen="0.5" dash="[2 2] 0">
+459 215 m
+381 339.826 l
+</path>
+<path stroke="0.75 0.12 0.18" pen="0.8" dash="[3 2] 0">
+459 215 m
+433.166 256.342 l
+</path>
+<path stroke="0.45" pen="0.5" dash="[2 2] 0">
+381 215 m
+381 339.826 l
+</path>
+<text pos="496.7 228" stroke="0.75 0.12 0.18" type="label" halign="left" valign="center" size="normal">$\delta$</text>
+<path stroke="0.45" pen="0.4">
+501 215 m
+539 215 l
+</path>
+<path stroke="0.45" pen="0.4">
+501 339.826 m
+539 339.826 l
+</path>
+<path stroke="0.45" pen="0.7" arrow="normal/5" rarrow="normal/5">
+533 215 m
+533 339.826 l
+</path>
+<text pos="548 277.413" stroke="0" type="label" halign="center" valign="center" size="normal">$R$</text>
+<path stroke="0.45" pen="0.4">
+381 173 m
+381 147 l
+</path>
+<path stroke="0.45" pen="0.4">
+459 173 m
+459 147 l
+</path>
+<path stroke="0.45" pen="0.7" arrow="normal/5" rarrow="normal/5">
+381 153 m
+459 153 l
+</path>
+<text pos="420 142" stroke="0" type="label" halign="center" valign="center" size="normal">$L$</text>
+<path fill="0.45">
+2.4 0 0 2.4 381 215 e
+</path>
+<path fill="0.45">
+2.4 0 0 2.4 459 215 e
+</path>
+<path stroke="0.18 0.49 0.56" pen="1.2">
+374 339.826 m
+388 339.826 l
+</path>
+<path stroke="0.18 0.49 0.56" pen="1.2">
+381 332.826 m
+381 346.826 l
+</path>
+<text pos="392 341.826" stroke="0.18 0.49 0.56" type="label" halign="left" valign="center" size="small">ICR</text>
+<text pos="420 411" stroke="0" type="label" halign="center" valign="baseline" size="large">what we plan with</text>
+<path stroke="0" pen="1.4" arrow="normal/8">
+284 215 m
+336 215 l
+</path>
+<text pos="310 237" stroke="0" type="label" halign="center" valign="baseline" size="small">one axle,</text>
+<text pos="310 225" stroke="0" type="label" halign="center" valign="baseline" size="small">one wheel</text>
+<text pos="56 120" stroke="0" type="label" halign="left" valign="baseline" size="small">\textbf{The rear axle is rigid}: both rear wheels sit on one shaft and never steer, so the ICR always lies on that axle, extended.</text>
+<text pos="56 106" stroke="0" type="label" halign="left" valign="baseline" size="small">\textbf{The front wheels cannot share an angle}: each turns about its own radius, so the inner one must turn further than the outer one.</text>
+<text pos="56 92" stroke="0" type="label" halign="left" valign="baseline" size="small">$\cot\delta_o - \cot\delta_i = w/L$. \quad With a track width $w = 0.75\,L$, a commanded $22^\circ$ is really $25.5^\circ$ inside and $19.3^\circ$ outside.</text>
+<text pos="56 78" stroke="0" type="label" halign="left" valign="baseline" size="small">\textbf{The model}: replace each axle by one wheel at its centre. Only $L$ and one angle $\delta$ are left, and the ICR does not move.</text>
+<text pos="56 64" stroke="0" type="label" halign="left" valign="baseline" size="small">\textbf{Why that is fair here}: one servo steers both front wheels through one linkage, commanded as one number, $-100\,\%$ to $+100\,\%$.</text>
+<text pos="56 50" stroke="0" type="label" halign="left" valign="baseline" size="small">It measures nothing at the front either: neither the angle difference nor the wheel speeds. Nothing there could feed a finer model.</text>
+<text pos="56 36" stroke="0" type="label" halign="left" valign="baseline" size="small">The model keeps what can be commanded and observed. What it leaves out is paid for by the safety margin of chapter 10.</text>
+</page>
+</ipe>

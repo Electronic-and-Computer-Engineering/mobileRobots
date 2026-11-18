@@ -115,11 +115,11 @@ run('experiments/experiment_oval_lap.m')
 vRef(turning) = min(o.VMax, sqrt(o.AyMax ./ kappa(turning)));
 ```
 
-Cornering at speed `v` on a bend of radius `R` pulls the car sideways with `v^2/R`, and the tyres hold `P.ayMax = 7.85 m/s²`, so `v <= sqrt(ayMax * R)`. The tightest bend of this route has `R = 0.296` m, which gives
+Cornering at speed $v$ on a bend of radius $R$ pulls the car sideways with $v^2/R$, and the tyres hold `P.ayMax = 7.85 m/s²`, so $v \le \sqrt{a_{y,\max}\,R}$. The tightest bend of this route has $R = 0.296$ m, which gives
 
-```
-sqrt(7.85 * 0.296) = 1.52 m/s
-```
+$$
+\sqrt{7.85 \cdot 0.296} \;=\; 1.52\ \text{m/s}
+$$
 
 exactly the "slowest point" the experiment reports. The backward braking pass then pulls the speeds *before* that bend down as well, which is why the car starts slowing long before it arrives — the same thing a driver does.
 
@@ -155,9 +155,9 @@ crashed: 1 at (2.64, 1.61) after 1.44 s
 
 The search guaranteed that a **geometric** path exists which the car's steering can produce and whose swept rectangle clears the walls. That is all. Remember the line from chapter 08:
 
-```
-dtheta/ds = cos(beta) * tan(delta) / L
-```
+$$
+\frac{d\theta}{ds} \;=\; \frac{\cos\beta\,\tan\delta}{L}
+$$
 
 The speed cancelled, which is exactly why the search could ignore it — and exactly why it cannot have said anything about it. Speed enters only through grip, and grip is not a geometric property.
 
@@ -226,7 +226,7 @@ end
 
 The mistake in the prediction is treating `P.safety` as if it moved one fixed route nearer to or further from the walls. It does not. It changes **which route the search finds at all** — a different sequence of poses, with different curvature.
 
-**0.10 is faster than 0.05** because the extra margin squeezes the route towards the middle of the corridor, and the middle of a bend is the line with the *largest radius*. A larger radius means a higher grip-limited speed, `v <= sqrt(ayMax * R)`. The constraint bought speed. That is not a general law — it is a property of a corridor wide enough that centring the route makes it rounder.
+**0.10 is faster than 0.05** because the extra margin squeezes the route towards the middle of the corridor, and the middle of a bend is the line with the *largest radius*. A larger radius means a higher grip-limited speed, $v \le \sqrt{a_{y,\max}\,R}$. The constraint bought speed. That is not a general law — it is a property of a corridor wide enough that centring the route makes it rounder.
 
 **0.03 is worse than 0.02** because both are below the point where the margin binds anywhere useful, so the two routes differ almost arbitrarily: a few poses chosen differently by the tie-breaking in OPEN. With no margin to speak of, nothing is steering the search towards a sensible line, and 11.3 mm is what you get by accident.
 

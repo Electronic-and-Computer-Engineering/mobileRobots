@@ -86,6 +86,17 @@ function [nb, w, poses] = car_neighbors(CM, pose)
 %   track. Skip those. The cost is pr.cost.
 %
 %   ------------------------------------------------------------------
+%   CHECK ONE MOVE BY HAND
+%   At the start pose the car points along +x, so ct is 1 and sn is 0:
+%   a wrong rotation still looks right there. Use a pose that points up.
+%
+%       pose = [2.90  1.00  pi/2]        ct = 0,  sn = 1
+%
+%       the +22 deg move ends at        (2.85441, 1.10914)
+%       with the rotation left out      (3.00914, 1.04559)
+%
+%   Those are 17 cm apart, in different directions.
+%
 %   See it:      demo_my_motion_space
 %   Check with:  check_car_neighbors
 %   Then:        run('experiments/experiment_oval_lap.m')

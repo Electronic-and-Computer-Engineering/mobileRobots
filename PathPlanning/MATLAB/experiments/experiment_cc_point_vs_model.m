@@ -14,7 +14,21 @@
 clc
 P  = cc_params();
 T  = cc_track(P);
-CM = cc_car_model(T, P);
+
+% Chapter 08 asks you to run this at step 2, long before tasks/
+% car_primitives.m and tasks/car_neighbors.m exist. Part A needs neither
+% of them, so it always runs; part B needs both, and is skipped with a
+% word of explanation until they are written.
+haveModel = true;
+try
+    CM = cc_car_model(T, P);
+    car_neighbors(CM, P.start);          % is the neighbour function written?
+catch err
+    if ~any(strcmp(err.identifier, {'task:todo', 'cc_car_model:noPrimitives'}))
+        rethrow(err)
+    end
+    haveModel = false;
+end
 
 trace_on('off');
 
@@ -51,7 +65,21 @@ fprintf('\n  route %.2f m, %d expansions\n', ...
 local_report(logA, T);
 
 %% ---------- B: planned by the CAR, over poses -------------------------
-fprintf('\n=========== B: planned WITH the vehicle model (your astar_car) ===========\n\n');
+if ~haveModel
+    figure('Name','Planned as a point','Position',[60 60 1120 520]);
+    cc_plot_track(T, 'Route', XYgrid, 'Driven', logA, 'Cars', 20, ...
+        'Title', 'A: planned as a POINT -- the body does not fit through its own route');
+
+    fprintf('\n=========== B: planned WITH the vehicle model ===========\n\n');
+    fprintf('  Not yet. Part B plans with the car model, and that needs\n');
+    fprintf('  tasks/car_primitives.m (step 5) and tasks/car_neighbors.m\n');
+    fprintf('  (step 6). Both are still the skeleton.\n\n');
+    fprintf('  Run this experiment again when you have written them. The\n');
+    fprintf('  two halves side by side are what chapter 08 is for.\n\n');
+    return
+end
+
+fprintf('\n=========== B: planned WITH the vehicle model (your car_neighbors) ===========\n\n');
 
 [poses, info] = cc_lap_plan(CM);
 XYcar = cc_resample_path(poses(:,1:2), 0.04);

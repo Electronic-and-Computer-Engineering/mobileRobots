@@ -28,7 +28,7 @@ Two files, in this order:
 
 The three are:
 
-- **A node is no longer a cell.** It is a **pose** `(x, y, theta)` — where the car is *and* which way it points. The same position with a different heading is a different node.
+- **A node is no longer a cell.** It is a **pose** $(x, y, \theta)$ — where the car is *and* which way it points. The same position with a different heading is a different node.
 - **The moves are arcs, not steps.** They come from the vehicle, not from the grid.
 - **The test is a rectangle, not a cell.** "Is that cell free" becomes "does a 22 × 10.5 cm box fit there, at that angle, all along the way".
 
@@ -52,6 +52,12 @@ demo_cc_vehicle
 | `P.ayMax` | 7.85 m/s² | how much grip the tyres have |
 | dead band | 27.75 % | below this throttle the motor produces nothing |
 
+![the vehicle and its variables](figures/08_vehicle_variables.png)
+
+Every symbol in this chapter is in that picture. The one worth noticing now is
+that the pose $(x, y)$ is the **middle of the body**, not the rear axle — which
+is why the side slip angle $\beta$ appears at all, two steps from here.
+
 <details>
 <summary>Show solution (after your own attempt)</summary>
 
@@ -72,39 +78,116 @@ The car is **twice as long as it is wide**. Keep that in mind: it is the reason 
 run('experiments/experiment_cc_point_vs_model.m')
 ```
 
+The experiment has two halves. **A** plans the lap as a point, on the 5 cm grid,
+with your own A\* from chapter 06 — that runs now. **B** plans the same lap with
+the car model, and it needs the two files you write in steps 5 and 6, so for the
+moment the experiment says so and stops after A. Come back and run it again
+after step 6: the two halves then appear side by side, and that comparison is
+what this whole chapter is for.
+
 ![a route planned for a point, driven by a car](figures/08_point_fails.png)
 
 The planner was not careless. `tools/cc_track.m` already grows every wall by `P.inflate = 7.25 cm`, which is half the car's width plus two centimetres of margin. That is the standard trick — **configuration space**: rather than teach five algorithms about the car's shape, add the shape to the walls once.
 
 It works for the width. It does not work for the length.
 
-**TASK — Calculate on paper:** The car is `bodyL = 0.22 m` long and `bodyW = 0.105 m` wide, and its position is the middle of the body. If the body sits at an angle `psi` to the direction it is travelling, its outer front corner reaches
+**TASK — Calculate on paper:** The car is `bodyL = 0.22 m` long and `bodyW = 0.105 m` wide, and its position is the middle of the body.
 
-```
-d(psi) = (bodyL/2) * sin(psi) + (bodyW/2) * cos(psi)
-```
+Let $\psi$ be the angle between the **car's long axis and the wall it is passing** — zero when it runs parallel to the wall, 90° when it stands across the corridor. The furthest the body then reaches **towards that wall**, measured from its centre, is
 
-Work out `d(0°)`, `d(15°)` and `d(30°)`, and compare each with the 7.25 cm the walls were grown by.
+$$
+d(\psi) \;=\; \frac{\mathrm{bodyL}}{2}\,\sin\psi \;+\; \frac{\mathrm{bodyW}}{2}\,\cos\psi
+$$
+
+Work out $d(0^\circ)$, $d(15^\circ)$ and $d(30^\circ)$, and compare each with the 7.25 cm the walls were grown by.
 
 <details>
 <summary>Show solution (after your own attempt)</summary>
 
-| `psi` | `d(psi)` | walls grown by | fits? |
+| $\psi$ | $d(\psi)$ | walls grown by | fits? |
 |---|---|---|---|
-| 0° | 5.25 cm | 7.25 cm | yes |
+| 0° — parallel to the wall | 5.25 cm | 7.25 cm | yes |
 | 15° | 7.92 cm | 7.25 cm | **no** |
 | 30° | 10.05 cm | 7.25 cm | **no** |
 
-A single fixed margin can only be right for one angle. Inflation assumes the obstacle grows by a constant amount in every direction, which is true for a disc and false for a rectangle twice as long as it is wide. The maximum is `sqrt((bodyL/2)^2+(bodyW/2)^2)=12.2` cm, at `psi = 64.5°` — and inflating by 12.2 cm closes the narrow corridors of the track entirely, so there would be no route at all.
+At $\psi = 0$ the car reaches out exactly `bodyW/2`, half its width — which is what `P.inflate` was built from. Every other angle reaches further, because the length starts to count.
+
+A single fixed margin can only be right for one angle. Inflation assumes the obstacle grows by a constant amount in every direction, which is true for a disc and false for a rectangle twice as long as it is wide. The maximum is $\sqrt{(\mathrm{bodyL}/2)^2 + (\mathrm{bodyW}/2)^2} = 12.2$ cm, at $\psi = 64.5^\circ$ — and inflating by 12.2 cm closes the narrow corridors of the track entirely, so there would be no route at all.
 
 The way out is not a bigger margin. It is to stop pretending the car is a point.
 
 </details>
 
+### The angles, kept apart
+
+This chapter uses four, and three of them are easy to confuse. Keep the table by you.
+
+| | what it is | set by | how big it gets |
+|---|---|---|---|
+| $\theta$ | the car's **heading**: which way it points | the route so far | anything |
+| $\delta$ | the **steering angle** of the front wheels | your command, in per cent | ±22° |
+| $\beta$ | the angle between where it **points** and where it **travels** | $\delta$, through the model | ±11.42° |
+| $\psi$ | the angle between the car and a **wall** | wherever the corridor runs | anything |
+
+$\beta$ shapes the arc. $\psi$ decides whether the arc fits. They are not the same angle and they are not even about the same thing — $\beta$ is a property of the vehicle, $\psi$ a property of the vehicle *and* the track together.
+
 
 ## Step 3 — From a steering command to a rotation
 
 **TASK — Step 3:** Follow the chain from what you command to how the car turns. It has four links, and you will write the last two yourself.
+
+### Why one wheel per axle
+
+The car has four wheels, and the model has two. That is not sloppiness, it is a
+decision worth being able to defend.
+
+![four wheels, and the model that replaces them](figures/08_bicycle_model.png)
+
+The rear axle is one rigid shaft: both rear wheels sit on it and never steer, so
+the centre of rotation is always somewhere on that axle, extended. The front
+wheels are the interesting pair — each one travels on its own radius, so the
+inner wheel has to turn further than the outer one. That is the **Ackermann**
+condition:
+
+$$
+\cot\delta_o - \cot\delta_i \;=\; \frac{w}{L}
+$$
+
+with $w$ the track width and $L$ the wheelbase.
+
+**TASK — Calculate on paper:** Measure the track width $w$ of your car — the
+drawing assumes 0.09 m, which is $0.75\,L$. Work out the two front wheel angles
+that belong to a commanded $22^\circ$, and say how far apart they are. Then give
+two reasons why this lab is allowed to ignore the difference.
+
+<details>
+<summary>Show solution (after your own attempt)</summary>
+
+$\cot 22^\circ = 2.475$, and $w/(2L) = 0.375$, so
+
+$$
+\cot\delta_i = 2.475 - 0.375 = 2.100 \;\Rightarrow\; \delta_i = 25.5^\circ,
+\qquad
+\cot\delta_o = 2.475 + 0.375 = 2.850 \;\Rightarrow\; \delta_o = 19.3^\circ
+$$
+
+They differ by $6.1^\circ$ — not nothing.
+
+**First reason: you cannot command it.** One servo drives both front wheels
+through one linkage, and what you send is a single number from −100 % to +100 %.
+Whatever the linkage does mechanically, there is no second angle to set.
+
+**Second reason: you cannot observe it.** This car measures nothing at the front
+— neither the angle difference nor the wheel speeds. A model that represented
+the two wheels separately could never be checked against anything, and could
+never be corrected.
+
+So the model keeps exactly what can be commanded and what can be observed: one
+wheelbase, one steering angle. What it leaves out shows up as a slightly
+different turn radius than the real car drives, and that is paid for by the
+safety margin you will tune in chapter 10 — not by a more elaborate model.
+
+</details>
 
 ### 3a — Per cent to a wheel angle
 
@@ -133,39 +216,39 @@ That is why `tools/cc_primitives_probe.m` starts the state with `.delta` already
 
 ### 3c — The wheel angle to a rotation
 
-The car is modelled as a **bicycle**: the two front wheels become one steered wheel, the two rear wheels one fixed wheel. The state is `(x, y, theta)`, the steering angle is `delta`, and the speed is `v`.
+The car is modelled as a **bicycle**: the two front wheels become one steered wheel, the two rear wheels one fixed wheel. The state is $(x, y, \theta)$, the steering angle is $\delta$, and the speed is $v$.
 
-Because the reference point is the middle of the body and not the rear axle, the car does **not** travel in the direction it points. It travels at a **side slip angle** `beta` to it:
+Because the reference point is the middle of the body and not the rear axle, the car does **not** travel in the direction it points. It travels at a **side slip angle** $\beta$ to it — not to be confused with the $\psi$ of step 2, which was measured against a wall:
 
-```
-beta = atan( (lr/L) * tan(delta) )
-```
+$$
+\beta \;=\; \arctan\!\left(\frac{l_r}{L}\,\tan\delta\right)
+$$
 
 With that, the model per **second** is
 
-```
-xDot     = v * cos(theta + beta)
-yDot     = v * sin(theta + beta)
-thetaDot = (v/L) * cos(beta) * tan(delta)
-```
+$$
+\dot{x} = v\cos(\theta+\beta), \qquad
+\dot{y} = v\sin(\theta+\beta), \qquad
+\dot{\theta} = \frac{v}{L}\,\cos\beta\,\tan\delta
+$$
 
-**TASK — Calculate on paper:** Divide `thetaDot` by `v` to get the turning per **metre driven** instead of per second. Then put in full lock, `delta = 22°`, and compute the radius of the tightest circle the car can drive.
+**TASK — Calculate on paper:** Divide $\dot\theta$ by $v$ to get the turning per **metre driven** instead of per second. Then put in full lock, $\delta = 22^\circ$, and compute the radius of the tightest circle the car can drive.
 
 <details>
 <summary>Show solution (after your own attempt)</summary>
 
-```
-dtheta/ds = thetaDot / v = cos(beta) * tan(delta) / L
-```
+$$
+\frac{d\theta}{ds} \;=\; \frac{\dot\theta}{v} \;=\; \frac{\cos\beta\,\tan\delta}{L}
+$$
 
 **The speed cancelled.** This is the single most important line in the chapter: the *shape* of an arc does not depend on how fast it is driven. So the search can work in metres and leave the speed entirely to chapter 09.
 
-With `delta = 22°`: `tan(delta) = 0.4040`, `beta = atan(0.5 * 0.4040) = 11.42°`, `cos(beta) = 0.9802`, so
+With $\delta = 22^\circ$: $\tan\delta = 0.4040$, $\beta = \arctan(0.5 \cdot 0.4040) = 11.42^\circ$, $\cos\beta = 0.9802$, so
 
-```
-dtheta/ds = 0.9802 * 0.4040 / 0.12 = 3.30 rad/m
-R         = 1 / 3.30             = 0.303 m
-```
+$$
+\frac{d\theta}{ds} = \frac{0.9802 \cdot 0.4040}{0.12} = 3.30\ \text{rad/m},
+\qquad R = \frac{1}{3.30} = 0.303\ \text{m}
+$$
 
 A turning circle of 30 cm radius, on a track whose narrowest corridor is 59 cm wide.
 
@@ -173,7 +256,7 @@ A turning circle of 30 cm radius, on a track whose narrowest corridor is 59 cm w
 
 ### 3d — The whole chain, in numbers
 
-| command | `delta` | `beta` | `dtheta/ds` | radius | turn per 0.119 m arc |
+| command | $\delta$ | $\beta$ | $d\theta/ds$ | radius | turn per 0.119 m arc |
 |---:|---:|---:|---:|---:|---:|
 | 10 % | 2.20° | 1.10° | 0.320 rad/m | 3.124 m | 2.18° |
 | 25 % | 5.50° | 2.76° | 0.801 rad/m | 1.248 m | 5.46° |
@@ -183,37 +266,37 @@ A turning circle of 30 cm radius, on a track whose narrowest corridor is 59 cm w
 
 **TASK — Calculate on paper:** Reproduce the 50 % row from the three formulas above. Then answer two questions about the table as a whole.
 
-1. Ten per cent gives 0.320 rad/m and a hundred per cent gives 3.300. Ten times the command gives 10.3 times the curvature. Why is it so nearly linear, when `tan(delta)` is not?
+1. Ten per cent gives 0.320 rad/m and a hundred per cent gives 3.300. Ten times the command gives 10.3 times the curvature. Why is it so nearly linear, when $\tan\delta$ is not?
 2. There are **two** rotations in this model. Name both, and say which one the search stores in a pose.
 
 <details>
 <summary>Show solution (after your own attempt)</summary>
 
-**The 50 % row.** `delta = 0.5 * 22° = 11°`, `tan(11°) = 0.1944`,
-`beta = atan(0.5 * 0.1944) = 5.55°`, `cos(beta) = 0.99531`, so
-`dtheta/ds = 0.99531 * 0.1944 / 0.12 = 1.612` rad/m and `R = 0.620` m.
-Over one arc: `1.612 * 0.119 = 0.1918` rad = 10.99°.
+**The 50 % row.** $\delta = 0.5 \cdot 22^\circ = 11^\circ$, $\tan 11^\circ = 0.1944$,
+$\beta = \arctan(0.5 \cdot 0.1944) = 5.55^\circ$, $\cos\beta = 0.99531$, so
+`dtheta/ds = 0.99531 * 0.1944 / 0.12 = 1.612` rad/m and $R = 0.620$ m.
+Over one arc: $1.612 \cdot 0.119 = 0.1918$ rad = 10.99°.
 
-**1. Why nearly linear.** Up to 22° the tangent grows a little *faster* than its angle, while `cos(beta)` shrinks a little as `beta` grows. The two effects pull in opposite directions and very nearly cancel: the error over the whole range is 3 %. In the lab you may say "twice the command, twice the curvature". The search may not — it computes the exact value, which is the whole of `car_primitives`.
+**1. Why nearly linear.** Up to 22° the tangent grows a little *faster* than its angle, while $\cos\beta$ shrinks a little as $\beta$ grows. The two effects pull in opposite directions and very nearly cancel: the error over the whole range is 3 %. In the lab you may say "twice the command, twice the curvature". The search may not — it computes the exact value, which is the whole of `car_primitives`.
 
 **2. The two rotations.**
 
-- **The heading `theta`** turns at `thetaDot`. At full lock and 1 m/s that is 3.30 rad/s, or 189 deg/s.
-- **The direction of travel** is `theta + beta`, not `theta`. The body sits at an angle to its own path — up to 11.42° at full lock.
+- **The heading $\theta$** turns at $\dot\theta$. At full lock and 1 m/s that is 3.30 rad/s, or 189 deg/s.
+- **The direction of travel** is $\theta + \beta$, not $\theta$. The body sits at an angle to its own path — up to 11.42° at full lock.
 
-The search stores `theta`, the heading, because that is what the next primitive is rotated by. But the *position* advances along `theta + beta`. That is why the integration in `car_primitives` reads
+The search stores $\theta$, the heading, because that is what the next primitive is rotated by. But the *position* advances along $\theta + \beta$. That is why the integration in `car_primitives` reads
 
 ```matlab
 x = x + ds * cos(thMid + beta);
 ```
 
-and not `cos(thMid)`. Leave `beta` out of those two lines and the arc ends 23 mm away from where the car really goes — `check_car_primitives` will tell you so by name.
+and not `cos(thMid)`. Leave $\beta$ out of those two lines and the arc ends 23 mm away from where the car really goes — `check_car_primitives` will tell you so by name.
 
 </details>
 
 ### 3e — And the grip caps it
 
-None of this holds if the tyres cannot deliver it. Cornering needs `ay = |v * thetaDot| <= P.ayMax` = 7.85 m/s². At full lock that limits the car to `sqrt(7.85/3.30) = 1.54` m/s; above it `cc_step` scales the yaw rate down and the car runs wide.
+None of this holds if the tyres cannot deliver it. Cornering needs $a_y = |v\,\dot\theta| \le a_{y,\max}$ = 7.85 m/s². At full lock that limits the car to $\sqrt{7.85/3.30} = 1.54$ m/s; above it `cc_step` scales the yaw rate down and the car runs wide.
 
 That is a limit on the **speed**, not on the shape of the arc — which is exactly why it belongs to chapter 09 and not here.
 
@@ -229,11 +312,11 @@ The search cannot store a heading to infinite precision — it needs a finite nu
 <details>
 <summary>Show solution (after your own attempt)</summary>
 
-Full lock turns 3.30 rad per metre. One heading step is `2pi/16 = 0.3927` rad. So the arc that turns exactly one step is
+Full lock turns 3.30 rad per metre. One heading step is $2\pi/16 = 0.3927$ rad. So the arc that turns exactly one step is
 
-```
-s=(0.3927)/(3.30)=0.119 m
-```
+$$
+s = \frac{0.3927}{3.30} = 0.119\ \text{m}
+$$
 
 At 0.15 m, full lock turns 0.495 rad — one and a quarter heading steps. The search has to round that to a stored heading, so the pose it records is not the pose the car would be in. Do that a hundred times along a lap and the stored route and the real one drift apart. The route then looks valid to the planner and is not driveable.
 
@@ -248,21 +331,46 @@ Choosing the discretisation to fit the vehicle, rather than rounding the vehicle
 
 `P.steerLevels = [-1, -0.5, 0, 0.5, 1]` — five steering angles, so five moves: −22°, −11°, 0°, +11°, +22°. Each one is an arc of `P.arc` metres, computed **in the car's own frame**: start at the origin pointing along +x.
 
+![one motion primitive](figures/08_motion_primitive.png)
+
+That is one of the five. What you store is the end of the arc, $\Delta x$,
+$\Delta y$ and $\Delta\theta$, plus the four intermediate poses along the way —
+`car_neighbors` needs those to test the whole swept body, not just where it ends
+up.
+
 The three TODOs are the three lines you derived in step 3:
 
-- **TODO 1** the side slip angle `beta`
-- **TODO 2** the turning per metre `dtheta/ds`
+- **TODO 1** the side slip angle $\beta$
+- **TODO 2** the turning per metre $d\theta/ds$
 - **TODO 3** walking the arc in `nSub = 4` equal steps
 
 TODO 1 and TODO 2 are the two formulas you derived in step 3c — one line each. TODO 3 is the one you turn into code yourself; the loop and the bookkeeping are already in the file, with a marked slot for each of the four missing statements (`TODO 3a` to `3d`). The rule is three sentences:
 
 - Walk the arc in `nSub` equal steps of `ds = P.arc/nSub`.
-- Over each step the heading advances by `dthdS*ds`, and the car moves `ds` in the direction it is **travelling** — which is `theta + beta`, not `theta`.
+- Over each step the heading advances by `dthdS*ds`, and the car moves `ds` in the direction it is **travelling** — which is $\theta + \beta$, not $\theta$.
 - For the position step, use the heading **in the middle** of the step, not at its start or its end.
 
 **TASK — Explain:** Why the middle? Work out what the other two choices do to the arc before you look.
 
 Store all `nSub` intermediate poses in `pts`. `car_neighbors` tests every one of them against the walls, not just the end of the arc.
+
+#### If it does not come out: check the first step
+
+Before you debug the whole loop, check one iteration. At full lock, $\delta = 22^\circ$:
+
+```
+beta  = 0.19933 rad  = 11.421 deg
+dthdS = 3.3002 rad/m
+ds    = 0.02975 m          (= P.arc / 4)
+
+after the FIRST pass of the loop:
+    thMid = 0.04909 rad
+    th    = 0.09818 rad
+    x     = 0.02884 m
+    y     = 0.00731 m
+```
+
+If `beta` and `dthdS` are right and the first pass is not, the fault is in TODO 3 alone. If `th` is right but `x` and `y` are not, you have the `+ beta` missing. The end of the arc must land on the `+22.0` row of the table above.
 
 ### See it before you check it
 
@@ -298,7 +406,7 @@ Over one step the heading sweeps from `th` to `th + dthdS*ds`. Using the heading
 
 It matters more than it sounds. With four steps the midpoint rule matches the simulator to **0.10 mm**; the start-of-step rule misses the end of a full-lock arc by **5.8 mm**. Note that the heading comes out right either way — only the position is wrong — so this is a mistake the end-of-arc heading will never reveal. Nearly six millimetres per move, over the hundred and sixty moves of a lap, is not a rounding error.
 
-For comparison, leaving `beta` at zero misses by **23 mm** and also turns the car 22.96° instead of 22.50°, so full lock no longer lands on a heading step at all.
+For comparison, leaving $\beta$ at zero misses by **23 mm** and also turns the car 22.96° instead of 22.50°, so full lock no longer lands on a heading step at all.
 
 **Optional experiment:** change `thMid` to `th` and run `check_car_primitives` again. Then change it back.
 
@@ -361,10 +469,9 @@ end
 
 `car_primitives` gave you `pr.dx`, `pr.dy` and `pr.dth` **in the car's own frame**: as if the car sat at the origin pointing along +x. The car is somewhere else, pointing somewhere else, so every move has to be **turned by `th` first and moved to `(x, y)` second**. That is the plane rotation you already know:
 
-```
-x' = x cos(th) - y sin(th)
-y' = x sin(th) + y cos(th)
-```
+$$
+x' = x\cos\theta - y\sin\theta, \qquad y' = x\sin\theta + y\cos\theta
+$$
 
 applied to `(pr.dx, pr.dy)` and then offset by the car's position. The heading simply adds: `nth = th + pr.dth`. `ct` and `sn` are already computed for you at the top of the file — they do not change inside the loop.
 
@@ -379,6 +486,21 @@ Note that TODO 2 sits **before** TODO 1 in the file. That is deliberate: there i
 ### TODO 3 — the cost
 
 `cc_pose_index` is given; it turns a pose into the node number your `closed` set needs, or `[]` if the move left the track. The cost is `pr.cost` — the arc length plus a small surcharge for steering, so that between two routes of the same length the search prefers the one that weaves less.
+
+#### Check one move by hand
+
+Pick the pose where the mistake cannot hide. At the start of the oval the car points along +x, so `ct` is 1 and `sn` is 0 — the rotation does nothing and a wrong TODO 1 still looks right. So use a pose where the car points **up**:
+
+```
+pose = [2.90  1.00  pi/2]      ->  ct = 0,  sn = 1
+
+the +22 deg move should end at      (2.85441, 1.10914)
+with the rotation left out it ends  (3.00914, 1.04559)
+```
+
+Those two are 17 cm apart, in different directions. If you get the second one, `dy` is not being rotated.
+
+For comparison, the same move from the start pose `[1.60 0.50 0]` ends at `(1.70914, 0.54559)` at $+22.502^\circ$ — and gets there whether or not the rotation is right.
 
 **TASK — Predict:** Before you run anything, answer two questions.
 
@@ -451,7 +573,7 @@ poses = cc_lap_plan(CM, 'Planner', @astar_car);
 - [ ] I have looked at my own motion space in `demo_my_motion_space` and it is symmetric.
 - [ ] `check_car_primitives` passes — my formula and the simulator agree.
 - [ ] `check_car_neighbors` passes.
-- [ ] I can write `dtheta/ds` from memory and say why the speed cancels.
+- [ ] I can write $d\theta/ds$ from memory and say why the speed cancels.
 - [ ] I can say why inflating the walls is not enough for a car twice as long as it is wide.
 - [ ] I can say why the whole arc is tested and not just its end.
 
