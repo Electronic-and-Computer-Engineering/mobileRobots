@@ -134,7 +134,7 @@ if any(strcmp(problems, 'beta'))
     fprintf('        TODO 3. The car travels at an angle to the way it\n');
     fprintf('        points, and that angle is beta.\n');
     fprintf('      - the heading at the START of the step used instead of\n');
-    fprintf('        thMid. That bends every arc too late and misses by\n');
+    fprintf('        thMove. That bends every arc too late and misses by\n');
     fprintf('        about 5.8 mm at full lock.\n\n');
 end
 if any(strcmp(problems, 'chord'))

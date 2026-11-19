@@ -52,23 +52,40 @@ function prim = car_primitives(P)
 %   works: the SHAPE of an arc does not depend on how fast it is driven,
 %   so the search can plan in metres and leave the speed to chapter 09.
 %
-%   TODO 3 -- INTEGRATE ALONG THE ARC
+%   If you would rather picture it than differentiate it: held steering
+%   means the car drives a CIRCLE, and the steering angle picks its
+%   radius R = P.L / (cos(beta)*tan(d)). dthdS is exactly 1/R. Walking
+%   ds along a circle of radius R turns you by ds/R -- which is what a
+%   radian means. At full lock, R = 0.303 m.
 %
-%   This one you write yourself. The rule is three sentences:
+%   TODO 3 -- WALK THE ARC, ONE STEP AT A TIME
 %
-%     - Walk the arc in nSub equal steps of ds = P.arc/nSub.
-%     - Over each step the heading advances by dthdS*ds, and the car
-%       moves ds in the direction it is TRAVELLING, which is theta+beta
-%       and not theta.
-%     - For the position step use the heading in the MIDDLE of the step,
-%       not at its start and not at its end.
+%   No integral. nSub equal steps of ds = P.arc/nSub, and EVERY STEP IS
+%   THE SAME FOUR STATEMENTS. Work out one step and the loop is written.
 %
-%   That third point is worth thinking about before you code it. The
-%   heading at the end of the step makes every arc bend too early; the
-%   heading at the start makes it bend too late. The middle cancels both
-%   to first order, and at four steps it matches the simulator to under
-%   a tenth of a millimetre -- while the start-of-step version misses a
-%   full-lock arc by 5.8 mm, with the heading still coming out right.
+%   The number every step shares is its turn: dthdS*ds, the ds/R from
+%   above. At full lock that is 0.09818 rad, or 5.63 deg, per step.
+%
+%     thMove  where THIS PIECE goes: th plus HALF the step's turn
+%     th      where the CAR POINTS afterwards: th plus the whole turn
+%     x       move ds from here, in the direction thMove + beta
+%     y       the same, with sin instead of cos
+%
+%   Two names because they are two different things. th is a property of
+%   the CAR and gets stored; thMove is a property of the straight PIECE
+%   you are walking along, and is used once and thrown away.
+%
+%   Why half a step ahead: each piece replaces a bit of arc by the
+%   straight line between its two ends, and that line points half the
+%   bit's turn ahead of where the car points when it sets off.
+%
+%   THE ORDER: work out thMove before th is advanced, or the value you
+%   needed is gone -- the slots below are in that order for this reason.
+%   And the DIRECTION OF TRAVEL is thMove + beta, not thMove: the heading
+%   says where the car points, beta is the angle between pointing and
+%   moving. Leave beta out and a full-lock arc ends 23 mm off; use th
+%   instead of thMove and it ends 5.8 mm off, with the heading still
+%   coming out right.
 %
 %   CHECK_CAR_PRIMITIVES compares your arcs against the simulator, and
 %   DEMO_MY_MOTION_SPACE draws them, which is usually faster than
@@ -79,7 +96,7 @@ function prim = car_primitives(P)
 %   the loop are:
 %
 %       beta  = 0.19933      dthdS = 3.3002      ds = 0.02975
-%       thMid = 0.04909      th    = 0.09818
+%       thMove = 0.04909      th    = 0.09818
 %       x     = 0.02884      y     = 0.00731
 %
 %   beta and dthdS right but the first pass wrong -> TODO 3 alone.
@@ -111,15 +128,16 @@ for k = 1:numel(P.steerLevels)
 
     % ---- TODO 3: walk the arc in nSub steps --------------------------
     % The loop and the bookkeeping are here. Four statements are missing
-    % inside it, and the order matters: work out the MIDDLE heading of
-    % this step before you advance th, or you have lost the value you
-    % needed.
+    % inside it, and every step uses the same four. The turn of one step
+    % is dthdS*ds; thMove is half a step further on than th, and th is a
+    % whole step further on. Work out thMove BEFORE you advance th, or
+    % you have lost the value you needed.
     x = 0; y = 0; th = 0;
     pts = zeros(nSub, 3);
     for q = 1:nSub
 
         % (a) the heading in the middle of this step
-        thMid = th;                 % <-- TODO 3a
+        thMove = th;                 % <-- TODO 3a
 
         % (b) advance the heading to the end of this step
         % th = ...                  % <-- TODO 3b

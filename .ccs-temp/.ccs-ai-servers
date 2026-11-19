@@ -1,0 +1,15 @@
+{
+    "baseDirPath": "/Users/mayerflo/.vscode",
+    "lastUpdated": "Thu, 19 Nov 2026 14:03:27 GMT",
+    "servers": {
+        "sysconfig": {
+            "serverUrl": "http://127.0.0.1:55901/mcp"
+        },
+        "log": {
+            "serverUrl": "http://127.0.0.1:55903/log"
+        },
+        "telemetry": {
+            "serverUrl": "http://127.0.0.1:55903/telemetry"
+        }
+    }
+}
